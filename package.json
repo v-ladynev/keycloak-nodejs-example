@@ -1,0 +1,15 @@
+{
+  "name": "keycloack-nodejs-example",
+  "version": "1.0.0",
+  "description": "An example of integration Node.js and Keycloack",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/v-ladynev/keycloack-nodejs-example.git"
+  },
+  "license": "Apache-2.0",
+  "author": "V.Ladynev",
+  "dependencies": {
+    "keycloak-connect": "2.5.4"
+  }
+}
