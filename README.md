@@ -1,4 +1,4 @@
-# keycloak-example
+# keycloak-nodejs-example
 
 A simply step by step Keycloak and Node.js integration tutorial. 
 
