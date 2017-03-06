@@ -1,3 +1,3 @@
 var Keycloak = require('keycloak-connect');
 
-var keycloak = new Keycloak();
+var keycloak = new Keycloak({});
