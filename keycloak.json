@@ -5,5 +5,22 @@
   "resource": "demo",
   "credentials": {
     "secret": "13bd6c19-9f84-444b-8801-3d4c05cdb012"
+  },
+  "policy-enforcer": {
+    "user-managed-access": {},
+    "enforcement-mode": "ENFORCING",
+    "paths": [
+      {
+        "path": "/*",
+        "methods": [
+          {
+            "method": "GET"
+          },
+          {
+            "method": "POST"
+          }
+        ]
+      }
+    ]
   }
 }
