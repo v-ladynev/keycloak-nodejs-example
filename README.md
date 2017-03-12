@@ -74,29 +74,36 @@ Then click on `Admin Console` https://keycloak.gitbooks.io/documentation/getting
 
 3. Create a `CAMPAIGN_REALM` realm https://keycloak.gitbooks.io/documentation/getting_started/topics/first-realm/realm.html
 
-5. Create users: `admin_user`, `advanced_user`, `basic_user` (don't forget to disable `Temporary` password) 
+4. Create users: `admin_user`, `advanced_user`, `basic_user` (don't forget to disable `Temporary` password) 
 https://keycloak.gitbooks.io/documentation/getting_started/topics/first-realm/user.html
 
-6. Create realm roles: `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`
-https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/realm-roles.html 
-
+5. Create realm roles: `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`
+https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/realm-roles.html<br><br>
 *Noitice*: Each client can has their own "client roles", scoped only to the client
 https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/client-roles.html
 
-7. Add roles to users: `admin_user` — `ADMIN`, `advanced_user` — `ADVANCED_USER`, `basic_user` — `BASIC_USER_ROLE`
+6. Add roles to users: `admin_user` — `ADMIN`, `advanced_user` — `ADVANCED_USER`, `basic_user` — `BASIC_USER_ROLE`
 https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/user-role-mappings.html
+
+7. Create a `CAMPAIGN_CLIENT`<br>
+Client ID:  CAMPAIGN_CLIENT
+Client Protocol: openid-connect
+
+Access Type = Confidential 
+Valid Redirect URIs = http://localhost (TODO need investigate)
+Direct Access Grants Enabled: ON 
+Service Accounts Enabled: ON 
+Authorization Enabled: ON
+
+https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/clients/client-oidc.html
+
 
 Add role-based policy
 https://keycloak.gitbooks.io/authorization-services-guide/topics/policy/role-policy.html 
 
 
 
-Direct Access Grants Enabled: ON
-Service Accounts Enabled: ON
-Authorization Enabled: ON
- 
 
-https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/clients/client-oidc.html
 
 9. Using `Authorization -> Policies` add role based polices
 
