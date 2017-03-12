@@ -12,7 +12,7 @@ http://www.keycloak.org/downloads.html
 Perform this steps to get MySQL configured for Keycloak:
 https://keycloak.gitbooks.io/server-installation-and-configuration/content/topics/database/checklist.html
 
-There is an error in the documentation driver should be in the
+There is an error in the documentation — driver should be in the
 `modules/system/layers/base/com/mysql/driver/main` catalog. 
 
 The last MySQL driver
@@ -58,24 +58,26 @@ https://mvnrepository.com/artifact/mysql/mysql-connector-java
 </drivers>
 ```
 
-To fix time zone error during startup `connection-url` can be
+To fix time zone error during startup, `connection-url` can be
 `jdbc:mysql://localhost:3306/keycloak?serverTimezone=UTC`
 
 Database schema creation takes a long time. 
 
-2. Run server using standalone.sh (standalone.bat)
+## Basic configuration
 
-3. You should now have the Keycloak server up and running. 
-To check that it's working open [http://localhost:8080/auth](http://localhost:8080/auth). 
-You will need to create Admin user. 
+1. Run server using standalone.sh (standalone.bat)
+
+2. You should now have the Keycloak server up and running. 
+To check that it's working open [http://localhost:8080](http://localhost:8080). 
+You will need to create Admin user.
 Then click on `Admin Console` https://keycloak.gitbooks.io/documentation/getting_started/topics/first-boot/admin-console.html.
 
-4. Create a `demo` realm https://keycloak.gitbooks.io/documentation/getting_started/topics/first-realm/realm.html
+3. Create a `CAMPAIGN_REALM` realm https://keycloak.gitbooks.io/documentation/getting_started/topics/first-realm/realm.html
 
-5. Create users: `admin_user`, `advanced_user` (don't forget to disable `Temporary` password) 
+5. Create users: `admin_user`, `advanced_user`, `basic_user` (don't forget to disable `Temporary` password) 
 https://keycloak.gitbooks.io/documentation/getting_started/topics/first-realm/user.html
 
-6. Create roles: `ADMIN`, `ADVANCED_USER`, `BASIC_USER`
+6. Create roles: `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`
 https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/realm-roles.html
 
 7. Add roles to users: `admin_user` — `ADMIN`, `advanced_user` — `ADVANCED_USER` (need to choose every user)
