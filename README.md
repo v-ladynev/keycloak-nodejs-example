@@ -78,13 +78,12 @@ Then click on `Admin Console` https://keycloak.gitbooks.io/documentation/getting
 https://keycloak.gitbooks.io/documentation/getting_started/topics/first-realm/user.html
 
 6. Create realm roles: `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`
-https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/realm-roles.html
+https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/realm-roles.html 
 
-Each client can has their own roles, scoped only to the client
+*Noitice*: Each client can has their own "client roles", scoped only to the client
 https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/client-roles.html
 
-
-7. Add roles to users: `admin_user` — `ADMIN`, `advanced_user` — `ADVANCED_USER` (need to choose every user)
+7. Add roles to users: `admin_user` — `ADMIN`, `advanced_user` — `ADVANCED_USER`, `basic_user` — `BASIC_USER_ROLE`
 https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/user-role-mappings.html
 
 Add role-based policy
