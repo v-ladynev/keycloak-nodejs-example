@@ -69,7 +69,7 @@ Database schema creation takes a long time.
 
 2. You should now have the Keycloak server up and running. 
 To check that it's working open [http://localhost:8080](http://localhost:8080). 
-You will need to create Admin user.
+You will need to create a Keycloak admin user.
 Then click on `Admin Console` https://keycloak.gitbooks.io/documentation/getting_started/topics/first-boot/admin-console.html.
 
 3. Create a `CAMPAIGN_REALM` realm https://keycloak.gitbooks.io/documentation/getting_started/topics/first-realm/realm.html
@@ -77,8 +77,12 @@ Then click on `Admin Console` https://keycloak.gitbooks.io/documentation/getting
 5. Create users: `admin_user`, `advanced_user`, `basic_user` (don't forget to disable `Temporary` password) 
 https://keycloak.gitbooks.io/documentation/getting_started/topics/first-realm/user.html
 
-6. Create roles: `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`
+6. Create realm roles: `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`
 https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/realm-roles.html
+
+Each client can has their own roles, scoped only to the client
+https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/client-roles.html
+
 
 7. Add roles to users: `admin_user` — `ADMIN`, `advanced_user` — `ADVANCED_USER` (need to choose every user)
 https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/user-role-mappings.html
@@ -86,8 +90,7 @@ https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/use
 Add role-based policy
 https://keycloak.gitbooks.io/authorization-services-guide/topics/policy/role-policy.html 
 
-8. Add a Client: `Client ID = demo` -> `Save button` -> `Client Protocol = openid-connect`, `Access Type = Confidential`,
- `Valid Redirect URIs = http://localhost` (**TODO need investigate**)   
+
 
 Direct Access Grants Enabled: ON
 Service Accounts Enabled: ON
