@@ -2,7 +2,66 @@
 
 A simply step by step Keycloak and Node.js integration tutorial. 
 
-1. Download the last version of Keycloak (used 2.5.4.Final) http://www.keycloak.org/downloads.html
+## Download Keycloak
+
+Download the last version of Keycloak (this example uses 2.5.4.Final)
+http://www.keycloak.org/downloads.html
+
+## Configure Keycloak to use MySQL
+
+Perform this steps to get MySQL configured for Keycloak:
+https://keycloak.gitbooks.io/server-installation-and-configuration/content/topics/database/checklist.html
+
+There is an error in the documentation driver should be in the
+`modules/system/layers/base/com/mysql/driver/main` catalog. 
+
+The last MySQL driver
+https://mvnrepository.com/artifact/mysql/mysql-connector-java
+
+##### `module.xml`
+```XML
+<module xmlns="urn:jboss:module:1.3" name="com.mysql.driver">
+ <resources>
+  <resource-root path="mysql-connector-java-6.0.5.jar" />
+ </resources>
+ <dependencies>
+  <module name="javax.api"/>
+  <module name="javax.transaction.api"/>
+ </dependencies>
+</module>
+```
+
+##### `part of  standalone.xml`
+```XML
+<datasources>
+...
+<datasource jndi-name="java:jboss/datasources/KeycloakDS" pool-name="KeycloakDS" enabled="true" use-java-context="true">
+<connection-url>jdbc:mysql://localhost:3306/keycloak</connection-url>
+    <driver>mysql</driver>
+    <pool>
+        <max-pool-size>20</max-pool-size>
+    </pool>
+    <security>
+        <user-name>root</user-name>
+        <password>root</password>
+    </security>
+</datasource>
+...
+</datasources>
+
+<drivers>
+...
+<driver name="mysql" module="com.mysql.driver">
+    <driver-class>com.mysql.jdbc.Driver</driver-class>
+</driver>
+...
+</drivers>
+```
+
+To fix time zone error during startup `connection-url` can be
+`jdbc:mysql://localhost:3306/keycloak?serverTimezone=UTC`
+
+Database schema creation takes a long time. 
 
 2. Run server using standalone.sh (standalone.bat)
 
