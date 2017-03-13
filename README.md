@@ -65,6 +65,9 @@ Database schema creation takes a long time.
 
 ## Import Realm, Client and Polices
 Realm, Clein and Polices configuration can be imported using this file:
+[CAMPAIGN_REALM-realm.json](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/import_realm_json/CAMPAIGN_REALM-realm.json)
+
+https://keycloak.gitbooks.io/getting-started-tutorials/content/topics/first-realm/realm.html
 
 You will need only create users and assign them roles (Basic configuration — item 5, 6)
 
