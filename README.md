@@ -1,6 +1,6 @@
 # keycloak-nodejs-example
 
-A simply step by step Keycloak and Node.js integration tutorial. 
+A simply step by step Keycloak, MySQL and Node.js integration tutorial. 
 
 ## Download Keycloak
 
@@ -85,15 +85,19 @@ https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/cli
 6. Add roles to users: `admin_user` — `ADMIN`, `advanced_user` — `ADVANCED_USER`, `basic_user` — `BASIC_USER_ROLE`
 https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/user-role-mappings.html
 
-7. Create a `CAMPAIGN_CLIENT`<br>
-Client ID:  CAMPAIGN_CLIENT
-Client Protocol: openid-connect
+7. Create a `CAMPAIGN_CLIENT`
 
-Access Type = Confidential 
-Valid Redirect URIs = http://localhost (TODO need investigate)
-Direct Access Grants Enabled: ON 
-Service Accounts Enabled: ON 
-Authorization Enabled: ON
+* Client ID:  CAMPAIGN_CLIENT
+* Client Protocol: openid-connect
+* Access Type:  Confidential 
+
+* Standard Flow Enabled: ON
+* Implicit Flow Enabled: OFF
+* *Direct Access Grants Enabled: OFF* should be ON for the custom login 
+* Service Accounts Enabled: ON 
+* *Authorization Enabled: ON* to add polices
+* Valid Redirect URIs: /login
+* Web Origins: *
 
 https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/clients/client-oidc.html
 
@@ -128,10 +132,14 @@ https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/clients/o
 
 15. `npm start` to run node.js application
 
-# Links
-
+## Custom login
 [Change Keycloak login page, get security tokens using REST]
 (http://stackoverflow.com/questions/39356300/avoid-keycloak-default-login-page-and-use-project-login-page)
+[Obtain access token for user]
+(https://keycloak.gitbooks.io/server-developer-guide/content/v/2.2/topics/admin-rest-api.html)
+
+
+# Links
 
 Keycloak uses _JSON web token (JWT)_ as a barier token format. To decode such tokens: https://jwt.io/
 
