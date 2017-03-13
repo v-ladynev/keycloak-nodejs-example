@@ -96,7 +96,7 @@ https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/use
 * *Direct Access Grants Enabled: OFF* should be ON for the custom login 
 * Service Accounts Enabled: ON 
 * *Authorization Enabled: ON* to add polices
-* Valid Redirect URIs: /login
+* Valid Redirect URIs: http://localhost:3000/*
 * Web Origins: *
 
 https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/clients/client-oidc.html
@@ -137,6 +137,11 @@ https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/clients/o
 14. Run `npm install` in the project directory to install Node.js libraries
 
 15. `npm start` to run node.js application
+
+## Check permissions using REST API
+
+[Requesting Entitlements]
+(https://keycloak.gitbooks.io/authorization-services-guide/topics/service/entitlement/entitlement-api-aapi.html)
 
 ## Custom login
 [Change Keycloak login page, get security tokens using REST]

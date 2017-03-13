@@ -1,26 +1,10 @@
 {
-  "realm": "demo",
+  "realm": "CAMPAIGN_REALM",
   "auth-server-url": "http://localhost:8080/auth",
   "ssl-required": "external",
-  "resource": "demo",
+  "resource": "CAMPAIGN_CLIENT",
   "credentials": {
-    "secret": "13bd6c19-9f84-444b-8801-3d4c05cdb012"
+    "secret": "93376fe8-0f1d-4db8-8999-07ee9896cf35"
   },
-  "policy-enforcer": {
-    "user-managed-access": {},
-    "enforcement-mode": "ENFORCING",
-    "paths": [
-      {
-        "path": "/*",
-        "methods": [
-          {
-            "method": "GET"
-          },
-          {
-            "method": "POST"
-          }
-        ]
-      }
-    ]
-  }
+  "policy-enforcer": {}
 }

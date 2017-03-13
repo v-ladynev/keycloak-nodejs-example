@@ -71,15 +71,25 @@ app.get('/login', keycloak.protect(), function (req, res) {
     renderIndex(req, res, 'Go to "Create a customer" link');
 });
 
-app.get('/createCustomer/', keycloak.protect(), function (req, res) {
-    var tokens = JSON.parse(req.session['keycloak-token']);
+// TODO better to combine protect() and createPermission() in one middleware
+app.get('/createCustomer', keycloak.protect(), createPermission("scopes:customer:create"));
+app.get('/createCampaign', keycloak.protect(), createPermission("scopes:campaign:create"));
+app.get('/showReport', keycloak.protect(), createPermission("scopes:report:show"));
 
-    var rptToken = getRptTokenForPermission(tokens, {
-        resource_set_name: "Admin Resources"
-    }, function (rptTokenResult) {
-        renderIndex(req, res, rptTokenResult);
-    });
-});
+function createPermission(permissionScope) {
+    return function (req, res) {
+        var tokens = JSON.parse(req.session['keycloak-token']);
+
+        var permission = {
+            scopes: [permissionScope]
+        };
+
+        getRptTokenForPermission(tokens, permission, function (rptTokenResult) {
+            renderIndex(req, res, rptTokenResult);
+        });
+    };
+}
+
 
 var server = app.listen(3000, function () {
     var host = server.address().address;
@@ -98,6 +108,7 @@ function renderIndex(req, res, rptToken) {
 
 
 // TODO this is just an example, probably need to verify a sign of RPT
+// TODO or we don't need this, because of connection is performed on the server
 function getRptTokenForPermission(tokens, permission, callback) {
     var jsonRequest = {
         permissions: [permission]
