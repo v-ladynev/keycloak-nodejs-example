@@ -1,6 +1,6 @@
 # keycloak-nodejs-example
 
-A simply step by step Keycloak, MySQL and Node.js integration tutorial.
+A simply step by step Keycloak, MySQL and Node.js integration tutorial.<br>
 There is a simply Node.js application with checking permissions.
 The code with permissions check:
 https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js#L75
