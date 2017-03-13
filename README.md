@@ -129,16 +129,18 @@ https://keycloak.gitbooks.io/authorization-services-guide/topics/permission/crea
 10. Download `keycloak.json` using `CAMPAIGN_CLIENT -> Installation` :
 https://keycloak.gitbooks.io/securing-client-applications-guide/content/topics/oidc/nodejs-adapter.html
 
-11. Clone this project https://github.com/v-ladynev/keycloak-nodejs-example.git
+## Download and run application
 
-12. Replace `keycloak.json` in the [root of this project](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/keycloak.json)
+1. Clone this project https://github.com/v-ladynev/keycloak-nodejs-example.git
+
+2. Replace `keycloak.json` in the [root of this project](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/keycloak.json)
 with downloaded JSON.
 
-13. Run `npm install` in the project directory to install Node.js libraries
+3. Run `npm install` in the project directory to install Node.js libraries
 
-14. `npm start` to run node.js application
+4. `npm start` to run node.js application
 
-15. Login to the application using this URL http://localhost:3000/
+5. Login to the application using this URL http://localhost:3000/
 
 ## Add custom attribute
 
@@ -150,7 +152,7 @@ http://stackoverflow.com/a/32890003/3405171
 
 3. `customerId` value will be in the decoded `ID token`
 
-# Update custom attribute using REST API
+## Update custom attribute using REST API
 
 Update the user
 http://www.keycloak.org/docs-api/2.5/rest-api/index.html#_update_the_user
