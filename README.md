@@ -101,22 +101,28 @@ https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/use
 
 https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/clients/client-oidc.html
 
+## Configure permissions
 
-Add role-based policy
+1. Using `Authorization -> Policies` add role based polices
+
+* CREATE_CUSTOMER_POLICY -> ADMIN_ROLE
+* CREATE_CAMPAIGN_POLICY -> ADMIN_ROLE ADVANCED_USER_ROLE
+* SHOW_REPORTS_POLICY -> ADMIN_ROLE, ADVANCED_USER_ROLE, BASIC_USER_ROLE
 https://keycloak.gitbooks.io/authorization-services-guide/topics/policy/role-policy.html 
 
-
-
-
-
-9. Using `Authorization -> Policies` add role based polices
+2. Using `Authorization -> Permissions` add resource-based permissions
 
 `createCustomer ADMIN`
 `createCampaign ADMIN ADVANCED_USER`
 `showReports ADMIN ADVANCED_USER BASIC_USER`
+
+https://keycloak.gitbooks.io/authorization-services-guide/topics/permission/create-resource.html
+
+
+
  
 
-https://keycloak.gitbooks.io/authorization-services-guide/topics/policy/role-policy.html
+
 
 
 10. Create `keycloak.json` using `Client Authenticator = Client id and secret` (**TODO need investigate**):
