@@ -63,6 +63,11 @@ To fix time zone error during startup, `connection-url` can be
 
 Database schema creation takes a long time. 
 
+## Import Realm, Client and Polices
+Realm, Clein and Polices configuration can be imported using this file:
+
+You will need only create users and assign them roles (Basic configuration — item 5, 6)
+
 ## Basic configuration
 
 1. Run server using standalone.sh (standalone.bat)
@@ -74,16 +79,16 @@ Then click on `Admin Console` https://keycloak.gitbooks.io/documentation/getting
 
 3. Create a `CAMPAIGN_REALM` realm https://keycloak.gitbooks.io/documentation/getting_started/topics/first-realm/realm.html
 
-4. Create users (don't forget to disable `Temporary` password)
-  * login: admin_user, password: admin_user
-  * login: advanced_user, password: advanced_user
-  * login: basic_user, password: basic_user 
-https://keycloak.gitbooks.io/documentation/getting_started/topics/first-realm/user.html
-
-5. Create realm roles: `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`
+4. Create realm roles: `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`
 https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/realm-roles.html<br><br>
 *Noitice*: Each client can has their own "client roles", scoped only to the client
 https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/client-roles.html
+
+5. Create users (don't forget to disable `Temporary` password)
+https://keycloak.gitbooks.io/documentation/getting_started/topics/first-realm/user.html
+  * login: `admin_user`, password: `admin_user`
+  * login: `advanced_user`, password: `advanced_user`
+  * login: `basic_user`, password: `basic_user` 
 
 6. Add roles to users: `admin_user` — `ADMIN`, `advanced_user` — `ADVANCED_USER`, `basic_user` — `BASIC_USER_ROLE`
 https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/user-role-mappings.html
@@ -132,6 +137,8 @@ with downloaded JSON.
 13. Run `npm install` in the project directory to install Node.js libraries
 
 14. `npm start` to run node.js application
+
+15. Login to the application using this URL http://localhost:3000/
 
 ## Add custom attribute
 
