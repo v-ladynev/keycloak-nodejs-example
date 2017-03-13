@@ -147,20 +147,20 @@ with downloaded JSON.
 
 ## Add custom attribute
 
-1. Add a user attribute `customerId` to the `advanced_user`
+1. Add a user attribute `customerId` to the `advanced_user`<br>
 https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/users/attributes.html
 
-2. Create a mapper and add `customerId` to `ID token` 
+2. Create a mapper and add `customerId` to `ID token`<br> 
 http://stackoverflow.com/a/32890003/3405171
 
 3. `customerId` value will be in the decoded `ID token`
 
 ## Update custom attribute using REST API
 
-Update the user
+Update the user<br>
 http://www.keycloak.org/docs-api/2.5/rest-api/index.html#_update_the_user
 
-Using `UserRepresentation`, `attributes` field
+Using `UserRepresentation`, `attributes` field<br>
 http://www.keycloak.org/docs-api/2.5/rest-api/index.html#_userrepresentation
 
 ## Check permissions using REST API
