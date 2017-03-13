@@ -86,57 +86,54 @@ https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/cli
 https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/user-role-mappings.html
 
 7. Create a `CAMPAIGN_CLIENT`
-
-* Client ID:  CAMPAIGN_CLIENT
-* Client Protocol: openid-connect
-* Access Type:  Confidential 
-
-* Standard Flow Enabled: ON
-* Implicit Flow Enabled: OFF
-* *Direct Access Grants Enabled: OFF* should be ON for the custom login 
-* Service Accounts Enabled: ON 
-* *Authorization Enabled: ON* to add polices
-* Valid Redirect URIs: http://localhost:3000/*
-* Web Origins: *
-
 https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/clients/client-oidc.html
+
+* Client ID:  `CAMPAIGN_CLIENT`
+* Client Protocol: `openid-connect`
+* Access Type:  `Confidential` 
+
+* Standard Flow Enabled: `ON`
+* Implicit Flow Enabled: `OFF`
+* *Direct Access Grants Enabled: `OFF`* should be `ON` for the custom login 
+* Service Accounts Enabled: `ON` 
+* *Authorization Enabled: `ON`* to add polices
+* Valid Redirect URIs: `http://localhost:3000/*`
+* Web Origins: `*`
 
 ## Configure permissions
 
 1. Using `Authorization -> Policies` add role based polices
+https://keycloak.gitbooks.io/authorization-services-guide/topics/policy/role-policy.html
 
-* CREATE_CUSTOMER_POLICY -> ADMIN_ROLE
-* CREATE_CAMPAIGN_POLICY -> ADMIN_ROLE ADVANCED_USER_ROLE
-* SHOW_REPORTS_POLICY -> ADMIN_ROLE, ADVANCED_USER_ROLE, BASIC_USER_ROLE
-https://keycloak.gitbooks.io/authorization-services-guide/topics/policy/role-policy.html 
-
-2. Using `Authorization -> Permissions` add resource-based permissions
-
-`createCustomer ADMIN`
-`createCampaign ADMIN ADVANCED_USER`
-`showReports ADMIN ADVANCED_USER BASIC_USER`
-
-https://keycloak.gitbooks.io/authorization-services-guide/topics/permission/create-resource.html
-
-
-
+* Any Admin Policy -> `ADMIN_ROLE`
+* Admin Or Advanced User Policy -> `ADMIN_ROLE`, `ADVANCED_USER_ROLE`
+* Admin Or Advanced User Or Basic User Policy -> `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`
  
+2. Using `Authorization -> Authorization Scopes` add scopes
 
+* scopes:campaign:create
+* scopes:customer:create
+* scopes:report:show
 
+3. Using `Authorization -> Permissions` add scope-based permissions
+https://keycloak.gitbooks.io/authorization-services-guide/topics/permission/create-scope.html
 
+* Create Campaign Permission -> Scopes: `scopes:campaign:create`, Apply Policy: `Admin Or Advanced User Policy`
+* Create Customer Permission -> Scopes: `scopes:customer:create`, Apply Policy: `Any Admin Policy`
+* Show Report Permission -> Scopes: `scopes:report:show`, Apply Policy: `Admin Or Advanced User Or Basic User Policy`
 
-10. Create `keycloak.json` using `Client Authenticator = Client id and secret` (**TODO need investigate**):
-https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/clients/oidc/confidential.html
+10. Download `keycloak.json` using `CAMPAIGN_CLIENT -> Installation` :
+https://keycloak.gitbooks.io/securing-client-applications-guide/content/topics/oidc/nodejs-adapter.html
 
-11. Download `keycloak.json` from `Installation`
+11. Clone this project https://github.com/v-ladynev/keycloak-nodejs-example.git
 
-12. Clone this project https://github.com/v-ladynev/keycloak-nodejs-example.git
+12. Replace `keycloak.json` in the [root of this project](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/keycloak.json)
+with downloaded JSON.
 
-13. Copy `keycloak.json` in the root of the project
+13. Run `npm install` in the project directory to install Node.js libraries
 
-14. Run `npm install` in the project directory to install Node.js libraries
+14. `npm start` to run node.js application
 
-15. `npm start` to run node.js application
 
 ## Check permissions using REST API
 
@@ -149,8 +146,7 @@ https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/clients/o
 [Obtain access token for user]
 (https://keycloak.gitbooks.io/server-developer-guide/content/v/2.2/topics/admin-rest-api.html)
 
-
-# Links
+## Links
 
 Keycloak uses _JSON web token (JWT)_ as a barier token format. To decode such tokens: https://jwt.io/
 
