@@ -17,6 +17,7 @@
     "express-session": "*",
     "hogan-express": "*",
     "jsonwebtoken": "^7.3.0",
+    "keycloak-admin-client": "^0.4.0",
     "keycloak-connect": "2.5.4",
     "morgan": "^1.8.1"
   }

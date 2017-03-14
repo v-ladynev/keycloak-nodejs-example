@@ -1,4 +1,8 @@
+'use strict';
+
 var Keycloak = require('keycloak-connect');
+
+let adminClient = require('./adminClient');
 
 var jwt = require('jsonwebtoken');
 const URL = require('url');
@@ -29,6 +33,18 @@ app.use(morgan('combined'));
 
 app.get('/', function (req, res) {
     res.render('index');
+});
+
+app.get('/adminClient', function (req, res) {
+    res.render('adminClient');
+});
+
+app.get('/adminApi', (req, res) => {
+    adminClient[req.query.api](result => {
+        res.render('adminClient', {
+            result: JSON.stringify(result, null, 4)
+        });
+    });
 });
 
 // Create a session-store to be used by both the express-session
@@ -188,6 +204,3 @@ function getEntitlement(accessToken, jsonRequest, onGrant, onDeny, onError) {
 function getProtocol(opts) {
     return opts.protocol === 'https:' ? https : http;
 }
-
-
-

@@ -46,32 +46,25 @@
 
 <h1 style="width: 100%; text-align: center;">NodeJS Keycloak Example</h1>
 <hr/>
-Unprotected area
-<a href="/adminClient">Admin REST API Client</a>
-<hr/>
-Protected area
+
 <div class="nav">
     <ul>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/logout">Logout</a></li>
-        <li><a href="/createCustomer">Create a customer</a></li>
-        <li><a href="/createCampaign/">Create a campaign</a></li>
-        <li><a href="/showReport">Show report</a></li>
+        <li><a href="/adminApi?api=realmsList">Realms list</a></li>
+    </ul>
+    <ul>
+        <li><a href="/adminApi?api=usersList">Users list for CAMPAIGN_REALM</a></li>
+    </ul>
+    <ul>
+        <li><a href="/adminApi?api=createTestUser">Create user test_user</a></li>
+    </ul>
+    <ul>
+        <li><a href="/adminApi?api=deleteTestUser">Delete user test_user</a></li>
     </ul>
 </div>
 <div class="content">
-    <h2>RPT token (entitlement)</h2>
-    <pre>
-        {{rptToken}}
-    </pre>
-    <h2>Tokens</h2>
+    <h2>Result</h2>
     <pre>
         {{result}}
-    </pre>
-
-    <h2>Decoded tokens</h2>
-    <pre>
-        {{decodedTokens}}
     </pre>
 </div>
 
