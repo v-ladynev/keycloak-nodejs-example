@@ -1,9 +1,17 @@
 # keycloak-nodejs-example
 
 A simply step by step Keycloak, MySQL and Node.js integration tutorial.<br>
-There is a simply Node.js application with checking permissions.
-The code with permissions check:
-https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js#L75
+There is a simply Node.js application with checking permissions.<br>
+The code with permissions check: https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js#L75
+
+There are three links are protected by scopes in this example. Each scope is connected to permision. 
+Permissions are connected to role-based policies. So each link can be opened only by user with given roles.
+
+| Link            | Scope                    | Roles                                                 |
+|-----------------|--------------------------|-------------------------------------------------------|
+| /createCustomer | `scopes:customer:create` | `ADMIN_ROLE`       |
+| /createCampaign | `scopes:campaign:create` | `ADMIN_ROLE`, `ADVANCED_USER_ROLE`                                          |
+| /showReport     | `scopes:report:show`     | `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE` |
 
 ## Download Keycloak
 
