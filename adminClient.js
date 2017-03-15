@@ -170,6 +170,65 @@ exports.createRole = function (callback) {
     });
 };
 
+exports.addTestRoleToTestUser = function (callback) {
+    exports.findTestUser(users => {
+            let user = users && users[0];
+            if (user) {
+
+                authenticate(token => {
+                    exports.getRoleByName('TEST_ROLE', role=> {
+
+                        keycloakRequest('POST',
+                            `/admin/realms/${exampleSettings.realmName}/users/${user.id}/role-mappings/realm`,
+                            token, [role])
+                            .then(callback.bind(null, 'added'), error(callback))
+                            .catch(error(callback));
+                    });
+
+                });
+
+            } else {
+                callback("not found");
+            }
+        }, error(callback)
+    );
+};
+
+exports.removeTestRoleFromTestUser = function (callback) {
+    exports.findTestUser(users => {
+            let user = users && users[0];
+            if (user) {
+
+                authenticate(token => {
+                    exports.getRoleByName('TEST_ROLE', role=> {
+
+                        keycloakRequest('DELETE',
+                            `/admin/realms/${exampleSettings.realmName}/users/${user.id}/role-mappings/realm`,
+                            token, [role])
+                            .then(callback.bind(null, 'deleted'), error(callback))
+                            .catch(error(callback));
+                    });
+
+                });
+
+            } else {
+                callback("not found");
+            }
+        }, error(callback)
+    );
+};
+
+exports.getRoleByName = function (roleName, callback) {
+    authenticate(token => {
+        keycloakRequest('GET',
+            `/admin/realms/${exampleSettings.realmName}/roles/${roleName}`,
+            token, null)
+            .then(callback, error(callback))
+            .catch(error(callback));
+    });
+};
+
+
 function authenticate(callback) {
     return getToken(settings.baseUrl, settings)
         .then(callback);
@@ -177,7 +236,7 @@ function authenticate(callback) {
 
 function keycloakRequest(method, url, accessToken, jsonBody) {
     return new Promise((resolve, reject) => {
-        let req = method == 'POST' || method == 'PUT' ? {
+        let req = jsonBody != null ? {
             url: settings.baseUrl + url,
             auth: {
                 bearer: accessToken
@@ -190,7 +249,8 @@ function keycloakRequest(method, url, accessToken, jsonBody) {
             auth: {
                 bearer: accessToken
             },
-            method: method
+            method: method,
+            json: true
         };
 
         request(req, (err, resp, body) => {
