@@ -176,14 +176,11 @@ http://www.keycloak.org/docs-api/2.5/rest-api/index.html#_userrepresentation
 
 ## Check permissions using REST API
 
-[Requesting Entitlements]
-(https://keycloak.gitbooks.io/authorization-services-guide/topics/service/entitlement/entitlement-api-aapi.html)
+[Requesting Entitlements](https://keycloak.gitbooks.io/authorization-services-guide/topics/service/entitlement/entitlement-api-aapi.html)
 
 ## Custom login
-[Change Keycloak login page, get security tokens using REST]
-(http://stackoverflow.com/questions/39356300/avoid-keycloak-default-login-page-and-use-project-login-page)
-[Obtain access token for user]
-(https://keycloak.gitbooks.io/server-developer-guide/content/v/2.2/topics/admin-rest-api.html)
+[Change Keycloak login page, get security tokens using REST](http://stackoverflow.com/questions/39356300/avoid-keycloak-default-login-page-and-use-project-login-page)
+[Obtain access token for user](https://keycloak.gitbooks.io/server-developer-guide/content/v/2.2/topics/admin-rest-api.html)
 
 ## Links
 
