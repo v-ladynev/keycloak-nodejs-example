@@ -115,9 +115,9 @@ https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/clients/c
   * Access Type:  `Confidential`
   * Standard Flow Enabled: `ON`
   * Implicit Flow Enabled: `OFF`
-  * *Direct Access Grants Enabled: `OFF`* (should be `ON` for the custom login) 
+  * Direct Access Grants Enabled: `ON` **Important**: it should be `ON` for the custom login 
   * Service Accounts Enabled: `ON` 
-  * *Authorization Enabled: `ON`* (to add polices)
+  * Authorization Enabled: `ON` **Important**: to add polices
   * Valid Redirect URIs: `http://localhost:3000/*`
   * Web Origins: `*`
 
@@ -166,6 +166,38 @@ http://stackoverflow.com/a/32890003/3405171
 
 3. `customerId` value will be in the decoded `ID token`
 
+## Examples of using Admin REST API and Custom Login
+
+### Example of custom login 
+The file [app.js](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js)
+ 
+```Java 
+ app.get('/customLoginEnter', function (req, res) {
+     let rptToken = null
+     keycloak.grantManager.obtainDirectly(req.query.login, req.query.password).then(grant => {
+         keycloak.storeGrant(grant, req, res);
+         renderIndex(req, res, rptToken);
+     }, error => {
+         renderIndex(req, res, rptToken, "Error: " + error);
+     });
+ });
+```
+ 
+### Examples of Admin REST API 
+The file [adminClient.js](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/adminClient.js)
+
+  * Realms list
+  * Users list for `CAMPAIGN_REALM`
+  * Create user `test_user` (password: `test_user`)
+  * Get user `test_user`
+  * Delete user `test_user`
+  * Update user `test_user` 
+  * Set `test_user` `customerId=123`
+  * Remove `test_user` `customerId`
+  * Create Role `TEST_ROLE`
+  * Add `TEST_ROLE` to `test_user`
+  * Remove `TEST_ROLE` from `test_user` 
+
 ## Update custom attribute using REST API
 
 Update the user<br>
@@ -178,13 +210,11 @@ http://www.keycloak.org/docs-api/2.5/rest-api/index.html#_userrepresentation
 
 [Requesting Entitlements](https://keycloak.gitbooks.io/authorization-services-guide/topics/service/entitlement/entitlement-api-aapi.html)
 
-## Custom login
-[Change Keycloak login page, get security tokens using REST](http://stackoverflow.com/questions/39356300/avoid-keycloak-default-login-page-and-use-project-login-page)
-[Obtain access token for user](https://keycloak.gitbooks.io/server-developer-guide/content/v/2.2/topics/admin-rest-api.html)
-
 ## Links
 
 [Keycloak Admin REST API](http://www.keycloak.org/docs-api/2.5/rest-api/index.html)
+[Change Keycloak login page, get security tokens using REST](http://stackoverflow.com/questions/39356300/avoid-keycloak-default-login-page-and-use-project-login-page)
+[Obtain access token for user](https://keycloak.gitbooks.io/server-developer-guide/content/v/2.2/topics/admin-rest-api.html)
 
 Keycloak uses _JSON web token (JWT)_ as a barier token format. To decode such tokens: https://jwt.io/
 
