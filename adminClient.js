@@ -239,10 +239,10 @@ exports.getRoleByName = function (roleName, callback) {
     });
 };
 
-
-function authenticate(callback) {
-    return getToken(settings.baseUrl, settings)
-        .then(callback);
+function authenticate(callback, options) {
+    let params = options || settings;
+    return getToken(params.baseUrl, params)
+        .then(callback, error(callback));
 }
 
 function keycloakRequest(method, url, accessToken, jsonBody) {

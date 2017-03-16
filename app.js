@@ -1,6 +1,6 @@
 'use strict';
 
-var Keycloak = require('keycloak-connect');
+let Keycloak = require('keycloak-connect');
 
 let adminClient = require('./adminClient');
 
@@ -28,7 +28,6 @@ app.use(express.static('view'));
 
 app.use(morgan('combined'));
 
-
 // A normal un-protected public URL.
 
 app.get('/', function (req, res) {
@@ -37,6 +36,10 @@ app.get('/', function (req, res) {
 
 app.get('/adminClient', function (req, res) {
     res.render('adminClient');
+});
+
+app.get('/customLogin', function (req, res) {
+    res.render('customLogin');
 });
 
 app.get('/adminApi', (req, res) => {
@@ -83,6 +86,17 @@ app.use(keycloak.middleware({
     admin: '/'
 }));
 
+// custom login
+app.get('/customLoginEnter', function (req, res) {
+    let rptToken = null
+    keycloak.grantManager.obtainDirectly(req.query.login, req.query.password).then(grant => {
+        keycloak.storeGrant(grant, req, res);
+        renderIndex(req, res, rptToken);
+    }, error => {
+        renderIndex(req, res, rptToken, "Error: " + error);
+    });
+});
+
 app.get('/login', keycloak.protect(), function (req, res) {
     renderIndex(req, res, 'Go to "Create a customer" link');
 });
@@ -112,15 +126,24 @@ var server = app.listen(3000, function () {
     console.log('Example app listening at http://%s:%s', host, port);
 });
 
-function renderIndex(req, res, rptToken) {
-    var tokens = JSON.parse(req.session['keycloak-token']);
-    res.render('index', {
-        rptToken: rptToken,
-        result: JSON.stringify(tokens, null, 4),
-        decodedTokens: decodeTokens(tokens)
-    });
-}
+function renderIndex(req, res, rptToken, errorMessage) {
+    if (errorMessage) {
+        res.render('index', {
+            rptToken: errorMessage,
+            result: errorMessage,
+            decodedTokens: errorMessage
+        });
+    } else {
+        let token = req.session['keycloak-token'] || '{error: "can not get token"}';
+        let tokens = JSON.parse(token);
+        res.render('index', {
+            rptToken: rptToken,
+            result: JSON.stringify(tokens, null, 4),
+            decodedTokens: decodeTokens(tokens)
+        });
+    }
 
+}
 
 // TODO this is just an example, probably need to verify a sign of RPT
 // TODO or we don't need this, because of connection is performed on the server
