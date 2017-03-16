@@ -42,9 +42,20 @@ exports.createTestUser = function (callback) {
             client.users.create(exampleSettings.realmName, {
                 username: 'test_user',
                 firstName: 'user first name',
-                enabled: true,
-                credentials: [{type: 'password', value: 'password'}]
-            }).then(callback, error(callback));
+                enabled: true
+            }).then(newUser=> {
+                // TODO This is a temporary password of user
+                // TODO Probably need to use the endpoint for update user and send the empty array of
+                // TODO requiredActions in it.
+                authenticate(token => {
+                    keycloakRequest('PUT', `/admin/realms/${exampleSettings.realmName}/users/${newUser.id}/reset-password`,
+                        token, {type: 'password', value: 'test_user'})
+                        .then(callback.bind(null, newUser), error(callback))
+                        .catch(error(callback));
+                });
+
+
+            }, error(callback));
         })
         .catch(error(callback));
 };
@@ -271,4 +282,5 @@ function error(callback) {
     return function (errorObject) {
         callback('Error: ' + JSON.stringify(errorObject, null, 4));
     };
+
 }
