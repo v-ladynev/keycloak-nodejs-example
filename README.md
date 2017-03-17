@@ -2,7 +2,7 @@
 
 A simply step by step Keycloak, MySQL and Node.js integration tutorial.<br>
 There is a simply Node.js application with checking permissions.<br>
-The code with permissions check: https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js#L75
+The code with permissions check: https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js
 
 There are three links are protected by scopes in this example. Each scope is connected to permision. 
 Permissions are connected to role-based policies. So each link can be opened only by user with given roles.
