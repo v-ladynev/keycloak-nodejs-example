@@ -166,6 +166,42 @@ http://stackoverflow.com/a/32890003/3405171
 
 3. `customerId` value will be in the decoded `ID token`
 
+## Keycloak docker image
+
+### Using official jboss/keycloak-mysql 
+
+Using MySQL on `localhost`.
+Creates a Keycloak `admin` user with password `admin`. 
+
+```shell
+sudo docker run --name keycloak_dev \
+--network="host" \
+-e MYSQL_PORT_3306_TCP_ADDR=localhost -e MYSQL_PORT_3306_TCP_PORT=3306 \
+-e MYSQL_DATABASE=KEYCLOAK_DEV -e MYSQL_USERNAME=root -e MYSQL_PASSWORD=root \ 
+-e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin \
+jboss/keycloak-mysql 
+```
+
+### Using ladynev/keycloak-mysql-realm-users
+
+Using MySQL on `localhost`.
+Creates a Keycloak `admin` user with password `admin`. 
+
+```shell
+sudo docker run --name keycloak_dev \
+--network="host" \
+-e MYSQL_PORT_3306_TCP_ADDR=localhost -e MYSQL_PORT_3306_TCP_PORT=3306 \
+-e MYSQL_DATABASE=KEYCLOAK_DEV -e MYSQL_USERNAME=root -e MYSQL_PASSWORD=root \
+-e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin \
+keycloak-mysql-realm-users 
+```
+
+### Build docker image from the root of the project
+
+```shell
+sudo docker build -t keycloak-mysql-realm-users ./docker
+```
+
 ## Examples of using Admin REST API and Custom Login
 
 ### Example of custom login 
