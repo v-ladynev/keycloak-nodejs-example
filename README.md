@@ -185,7 +185,6 @@ Keycloak will run on `localhost:8080`
 
 ### Using ladynev/keycloak-mysql-realm-users with MySQL on localhost
 
-Using MySQL on `localhost`.
 Creates a Keycloak `admin` user with password `admin`. 
 
 ```shell
