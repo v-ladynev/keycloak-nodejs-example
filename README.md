@@ -193,13 +193,13 @@ sudo docker run --name keycloak_dev \
 -e MYSQL_PORT_3306_TCP_ADDR=localhost -e MYSQL_PORT_3306_TCP_PORT=3306 \
 -e MYSQL_DATABASE=KEYCLOAK_DEV -e MYSQL_USERNAME=root -e MYSQL_PASSWORD=root \
 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin \
-keycloak-mysql-realm-users 
+ladynev/keycloak-mysql-realm-users
 ```
 
 ### Build docker image from the root of the project
 
 ```shell
-sudo docker build -t keycloak-mysql-realm-users ./docker
+sudo docker build -t keycloak-mysql-realm-users ./docker/import_realm_users
 ```
 
 ## Examples of using Admin REST API and Custom Login
