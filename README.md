@@ -168,9 +168,8 @@ http://stackoverflow.com/a/32890003/3405171
 
 ## Keycloak docker image
 
-### Using official jboss/keycloak-mysql 
+### Using official jboss/keycloak-mysql with MySQL on localhost 
 
-Using MySQL on `localhost`.
 Creates a Keycloak `admin` user with password `admin`. 
 
 ```shell
@@ -182,7 +181,9 @@ sudo docker run --name keycloak_dev \
 jboss/keycloak-mysql 
 ```
 
-### Using ladynev/keycloak-mysql-realm-users
+Keycloak will run on `localhost:8080`
+
+### Using ladynev/keycloak-mysql-realm-users with MySQL on localhost
 
 Using MySQL on `localhost`.
 Creates a Keycloak `admin` user with password `admin`. 
@@ -195,6 +196,45 @@ sudo docker run --name keycloak_dev \
 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin \
 ladynev/keycloak-mysql-realm-users
 ```
+
+Keycloak will run on `localhost:8080`
+
+### Using ladynev/keycloak-mysql-realm-users with MySQL docker image 
+
+Creates a Keycloak `admin` user with password `admin`.
+
+
+ 1.  First start a MySQL instance using the MySQL docker image:
+ 
+     ```shell
+     sudo docker run --name mysql \
+     -e MYSQL_DATABASE=KEYCLOAK_DEV -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=keycloak \
+     -e MYSQL_ROOT_PASSWORD=root_password \
+     -d mysql
+     ```
+ 
+ 2. Start a Keycloak instance and connect to the MySQL instance:
+    
+    ```shell
+    sudo docker run --name keycloak_dev \
+    --link mysql:mysql \
+    -p 8080:8080 \
+    -e MYSQL_DATABASE=KEYCLOAK_DEV -e MYSQL_USERNAME=keycloak -e MYSQL_PASSWORD=keycloak \
+    -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin \
+    ladynev/keycloak-mysql-realm-users
+    ```
+ 
+ 3. Get IP address of `ladynev/keycloak-mysql-realm-users` container
+    
+    ```shell
+    sudo docker network inspect bridge
+    ```
+  
+ 4. Keycloak will run on `ip_address:8080`. For example: http://172.17.0.3:8080
+ 
+ 5. To run `keycloak-nodejs-example`, it is need to fix `keycloak.json` with server IP-address.
+    Other option is generate`keycloak.json` with Keycloak UI `CAMPAIGN_CLIENT -> Installation`. 
+
 
 ### Build docker image from the root of the project
 
