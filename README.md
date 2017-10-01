@@ -115,7 +115,7 @@ https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/clients/c
   * Access Type:  `Confidential`
   * Standard Flow Enabled: `ON`
   * Implicit Flow Enabled: `OFF`
-  * Direct Access Grants Enabled: `ON` **Important**: it should be `ON` for the custom login 
+  * Direct Access Grants Enabled: `ON` **Important**: it should be `ON` for the custom login (to provide login/password via an application login page) 
   * Service Accounts Enabled: `ON` 
   * Authorization Enabled: `ON` **Important**: to add polices
   * Valid Redirect URIs: `http://localhost:3000/*`
@@ -148,7 +148,7 @@ https://keycloak.gitbooks.io/securing-client-applications-guide/content/topics/o
 1. Clone this project https://github.com/v-ladynev/keycloak-nodejs-example.git
 
 2. Replace `keycloak.json` in the [root of this project](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/keycloak.json)
-with downloaded JSON.
+with downloaded `keycloak.json`.
 
 3. Run `npm install` in the project directory to install Node.js libraries
 
@@ -159,7 +159,7 @@ with downloaded JSON.
 ## Add custom attribute
 
 1. Add a user attribute `customerId` to the `advanced_user`<br>
-https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/users/attributes.html
+http://www.keycloak.org/docs/latest/server_admin/topics/users/attributes.html
 
 2. Create a mapper and add `customerId` to `ID token`<br> 
 http://stackoverflow.com/a/32890003/3405171
@@ -244,6 +244,8 @@ sudo docker build -t keycloak-mysql-realm-users ./docker/import_realm_users
 ## Examples of using Admin REST API and Custom Login
 
 ### Example of custom login 
+
+Keycloak uses a Keycloak build in page to login a user by default. There is an example, how to use an application login page.   
 The file [app.js](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js)
  
 ```Java 
