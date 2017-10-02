@@ -245,10 +245,10 @@ sudo docker build -t keycloak-mysql-realm-users ./docker/import_realm_users
 
 ### Example of custom login 
 
-Keycloak uses a Keycloak build in page to login a user by default. There is an example, how to use an application login page.   
+Keycloak, by default, uses an own page to login a user. There is an example, how to use an application login page.   
 The file [app.js](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js)
  
-```Java 
+```javascript 
  app.get('/customLoginEnter', function (req, res) {
      let rptToken = null
      keycloak.grantManager.obtainDirectly(req.query.login, req.query.password).then(grant => {
@@ -259,7 +259,43 @@ The file [app.js](https://github.com/v-ladynev/keycloak-nodejs-example/blob/mast
      });
  });
 ```
- 
+
+#### What happens with custom login
+
+To perform custom login we need to obtain tokens from Keycloak. We can do this by HTTP request:
+```shell
+curl -X POST \
+  http://localhost:8080/auth/realms/CAMPAIGN_REALM/protocol/openid-connect/token \
+  -H 'authorization: Basic Q0FNUEFJR05fQ0xJRU5UOjkzMzc2ZmU4LTBmMWQtNGRiOC04OTk5LTA3ZWU5ODk2Y2YzNQ==' \
+  -H 'content-type: application/x-www-form-urlencoded' \
+  -d 'client_id=CAMPAIGN_CLIENT&username=admin_user&password=admin_user&grant_type=password'
+```
+
+'authorization: Basic Q0FNUEFJR05fQ0xJRU5UOjkzMzc2ZmU4LTBmMWQtNGRiOC04OTk5LTA3ZWU5ODk2Y2YzNQ=='
+is computed as
+```javascript
+'Basic ' + new Buffer(clientId + ':' + secret).toString('base64');
+```
+where (this is just an example, secret can be different) 
+```
+client_id = CAMPAIGN_CLIENT
+secret = 93376fe8-0f1d-4db8-8999-07ee9896cf35
+```
+they can be obtained from `keycloak.json`
+We will have as a result response with `access_token`, `refresh_token` and `id_token` (It has 3526 bytes length)
+```json
+{
+    "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJGQmZaenJUc3pYT1JtNlRuVkIwNVJXblY2T3BuWlliMmFYOGtKRnJfWnBNIn0.eyJqdGkiOiIxYTExZTI0Zi05MDc1LTQyMzQtODEzNi1kM2UwOTY0Njk5ZDkiLCJleHAiOjE1MDY5NDUxNjEsIm5iZiI6MCwiaWF0IjoxNTA2OTQ0ODYxLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvQ0FNUEFJR05fUkVBTE0iLCJhdWQiOiJDQU1QQUlHTl9DTElFTlQiLCJzdWIiOiJiOTQ1ZjhiYi03NGFjLTRiNWQtYTNkOC1iZDE3NmExM2U2ZjEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJDQU1QQUlHTl9DTElFTlQiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiI1ZDYyNzJhZi1mOTJiLTQwNmQtYTkwYi03OTAzMzMyOGU5ZDUiLCJhY3IiOiIxIiwiY2xpZW50X3Nlc3Npb24iOiIxNTk4MGE5ZC01NjkzLTQ3ZWQtYWM1MC1kZGUyYzM0ZmI2OWEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiQURNSU5fUk9MRSIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsInZpZXctcHJvZmlsZSJdfX0sIm5hbWUiOiIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbl91c2VyIn0.nedmYkpnkV2T_sTjqwENYqByoLGmlMEZ_6IVvczjRQJetdbamwBwEAr9Q9NkCUCqbzfnhfGsk_Q8Vplqp6j2hlDrReDDpp2KWeQCH0cLeNvfJE4ofDizq7EQAGe1qSGplc9Vd_XPUdjYr5lDBxLlEuk33JRduGeRUlamPIAEkwqwr_3eJphlbjwKp2oFzCtWGwcg0GSZ9Y1ZDcUr2AM3fFde-XZzssCPp8oIPcd6UpWOGK9AaeWTxRtM6pCnU1r0P3q_YIhplA3phTZNz9lmW01_ukgQezOXXPa58-Co5LdQbd1RHGgy6CUgHVrKPrJ-UzRzgyESdTWTc0K_Bmc9fw",
+    "expires_in": 300,
+    "refresh_expires_in": 1800,
+    "refresh_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJGQmZaenJUc3pYT1JtNlRuVkIwNVJXblY2T3BuWlliMmFYOGtKRnJfWnBNIn0.eyJqdGkiOiI5Zjk3MjlmOC0wZDJhLTQ2NGItOWQxMC0wMjQ4ZjBmYjg5MzAiLCJleHAiOjE1MDY5NDY2NjEsIm5iZiI6MCwiaWF0IjoxNTA2OTQ0ODYxLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvQ0FNUEFJR05fUkVBTE0iLCJhdWQiOiJDQU1QQUlHTl9DTElFTlQiLCJzdWIiOiJiOTQ1ZjhiYi03NGFjLTRiNWQtYTNkOC1iZDE3NmExM2U2ZjEiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoiQ0FNUEFJR05fQ0xJRU5UIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiNWQ2MjcyYWYtZjkyYi00MDZkLWE5MGItNzkwMzMzMjhlOWQ1IiwiY2xpZW50X3Nlc3Npb24iOiIxNTk4MGE5ZC01NjkzLTQ3ZWQtYWM1MC1kZGUyYzM0ZmI2OWEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiQURNSU5fUk9MRSIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsInZpZXctcHJvZmlsZSJdfX19.qft22KHgeE2V8nU5ITmoNnkwOqptK3sUatrnafo29zqBeYGg9CcC7nQ7JAT81Uy8ZEDTPrVc83-2XiLESzlCNyxIpPpQJNu2ulgjzNMQMRcgfJ2xD-GXLHMd0GYAi-b_qCsoOxsXHgJXJ-VtwbRAnZKmYxiMEroVG7VTcHSEJ2fIhsp5CtWnaZ4NS-9snT2lVVsWuvljoHoy16rNTG-Mg3cCDv3Kud1l5qIu-SXLKfrBm_rM0RUOf790UAtrxDvojqgtKefaDuMbaTpKG9T-v8jDlR4NQFVNkvzdKQDQ-97zVPvdzF6pZM_2kyqnBtU9EwXXzr8-DIygJg9hPzATng",
+    "token_type": "bearer",
+    "id_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJGQmZaenJUc3pYT1JtNlRuVkIwNVJXblY2T3BuWlliMmFYOGtKRnJfWnBNIn0.eyJqdGkiOiI4NjVmNjliZC1jMTBlLTRkMjUtOTgzYS0zNDkzNjQ5NGU3NmEiLCJleHAiOjE1MDY5NDUxNjEsIm5iZiI6MCwiaWF0IjoxNTA2OTQ0ODYxLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvQ0FNUEFJR05fUkVBTE0iLCJhdWQiOiJDQU1QQUlHTl9DTElFTlQiLCJzdWIiOiJiOTQ1ZjhiYi03NGFjLTRiNWQtYTNkOC1iZDE3NmExM2U2ZjEiLCJ0eXAiOiJJRCIsImF6cCI6IkNBTVBBSUdOX0NMSUVOVCIsImF1dGhfdGltZSI6MCwic2Vzc2lvbl9zdGF0ZSI6IjVkNjI3MmFmLWY5MmItNDA2ZC1hOTBiLTc5MDMzMzI4ZTlkNSIsImFjciI6IjEiLCJuYW1lIjoiIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiYWRtaW5fdXNlciJ9.if4EfoYgHSKlixVJP7Xqd_Hh7u5v-kexNuB9ya8QcPx9AKVZSvmIvdspLFN4Ka5BXz7leR77YAWanBbMhE9zmD1PSSYXlT0xmUwCyse-jIQbUbIkn2xonTddkge0mRBIqEvnXFkDnhBPzRvOfmTlK35IR-6EKMsFubT227tJUasK7-annv9vDYSEhJ9sztbu2oP5p5mMOhp_W-vrAFt1CbbhJ3XvfDuTH4yrRtjSYftCOIb_FqU_erEs49zXiXGyXdd3JHrBiWyLELfmKUqE9USf1r9omhW6-NVK-Yrd01xUTf7zfYk9qE0qSm3CwedqgohAyaT1o4ru8PWHUPHB-A",
+    "not-before-policy": 0,
+    "session_state": "5d6272af-f92b-406d-a90b-79033328e9d5"
+}
+```
+
 ### Examples of Admin REST API 
 The file [adminClient.js](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/adminClient.js)
 

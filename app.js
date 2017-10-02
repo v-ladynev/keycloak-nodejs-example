@@ -50,26 +50,8 @@ app.get('/adminApi', (req, res) => {
     });
 });
 
-// Create a session-store to be used by both the express-session
-// middleware and the keycloak middleware.
-
-var memoryStore = new session.MemoryStore();
-
-app.use(session({
-    secret: 'mySecret',
-    resave: false,
-    saveUninitialized: true,
-    store: memoryStore
-}));
-
-// Provide the session store to the Keycloak so that sessions
-// can be invalidated from the Keycloak console callback.
-//
-// Additional configuration is read from keycloak.json file
-// installed from the Keycloak web console.
-
-var keycloak = new Keycloak({
-    store: memoryStore
+let keycloak = initKeycloak({
+    useCookies: false
 });
 
 // Install the Keycloak middleware.
@@ -91,6 +73,10 @@ app.get('/customLoginEnter', function (req, res) {
     let rptToken = null
     keycloak.grantManager.obtainDirectly(req.query.login, req.query.password).then(grant => {
         keycloak.storeGrant(grant, req, res);
+
+
+        console.log(grant.__raw);
+
         renderIndex(req, res, rptToken);
     }, error => {
         renderIndex(req, res, rptToken, "Error: " + error);
@@ -105,20 +91,6 @@ app.get('/login', keycloak.protect(), function (req, res) {
 app.get('/createCustomer', keycloak.protect(), createPermission("scopes:customer:create"));
 app.get('/createCampaign', keycloak.protect(), createPermission("scopes:campaign:create"));
 app.get('/showReport', keycloak.protect(), createPermission("scopes:report:show"));
-
-function createPermission(permissionScope) {
-    return function (req, res) {
-        var tokens = JSON.parse(req.session['keycloak-token']);
-
-        var permission = {
-            scopes: [permissionScope]
-        };
-
-        getRptTokenForPermission(tokens, permission, function (rptTokenResult) {
-            renderIndex(req, res, rptTokenResult);
-        });
-    };
-}
 
 var server = app.listen(3000, function () {
     var host = server.address().address;
@@ -143,6 +115,52 @@ function renderIndex(req, res, rptToken, errorMessage) {
         });
     }
 
+}
+
+function initKeycloak(conf) {
+    if (conf.useCookies) {
+        return new Keycloak({
+            cookies: true
+        });
+    }
+
+    // this code to store a token in the session
+
+    // Create a session-store to be used by both the express-session
+    // middleware and the keycloak middleware.
+
+    var memoryStore = new session.MemoryStore();
+
+    app.use(session({
+        secret: 'mySecret',
+        resave: false,
+        saveUninitialized: true,
+        store: memoryStore
+    }));
+
+    // Provide the session store to the Keycloak so that sessions
+    // can be invalidated from the Keycloak console callback.
+    //
+    // Additional configuration is read from keycloak.json file
+    // installed from the Keycloak web console.
+
+    return new Keycloak({
+        store: memoryStore
+    });
+}
+
+function createPermission(permissionScope) {
+    return function (req, res) {
+        var tokens = JSON.parse(req.session['keycloak-token']);
+
+        var permission = {
+            scopes: [permissionScope]
+        };
+
+        getRptTokenForPermission(tokens, permission, function (rptTokenResult) {
+            renderIndex(req, res, rptTokenResult);
+        });
+    };
 }
 
 // TODO this is just an example, probably need to verify a sign of RPT
