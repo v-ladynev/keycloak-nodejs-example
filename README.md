@@ -245,7 +245,8 @@ sudo docker build -t keycloak-mysql-realm-users ./docker/import_realm_users
 
 ### Example of custom login 
 
-Keycloak, by default, uses an own page to login a user. There is an example, how to use an application login page.   
+Keycloak, by default, uses an own page to login a user. There is an example, how to use an application login page.
+`Direct Access Grants` should be enabled in that case (https://github.com/v-ladynev/keycloak-nodejs-example#basic-configuration)
 The file [app.js](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js)
  
 ```javascript 
@@ -276,12 +277,13 @@ is computed as
 ```javascript
 'Basic ' + new Buffer(clientId + ':' + secret).toString('base64');
 ```
-where (this is just an example, the secret can be different) 
+where (they can be obtained from `keycloak.json`) 
 ```
 client_id = CAMPAIGN_CLIENT
 secret = 93376fe8-0f1d-4db8-8999-07ee9896cf35
 ```
-they can be obtained from `keycloak.json`
+This is just an example, the secret can be different).
+
 We will have, as a result, a response with `access_token`, `refresh_token` and `id_token` (The response has 3526 bytes length)
 ```json
 {
