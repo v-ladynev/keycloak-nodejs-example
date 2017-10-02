@@ -271,18 +271,18 @@ curl -X POST \
   -d 'client_id=CAMPAIGN_CLIENT&username=admin_user&password=admin_user&grant_type=password'
 ```
 
-'authorization: Basic Q0FNUEFJR05fQ0xJRU5UOjkzMzc2ZmU4LTBmMWQtNGRiOC04OTk5LTA3ZWU5ODk2Y2YzNQ=='
+`authorization: Basic Q0FNUEFJR05fQ0xJRU5UOjkzMzc2ZmU4LTBmMWQtNGRiOC04OTk5LTA3ZWU5ODk2Y2YzNQ==`
 is computed as
 ```javascript
 'Basic ' + new Buffer(clientId + ':' + secret).toString('base64');
 ```
-where (this is just an example, secret can be different) 
+where (this is just an example, the secret can be different) 
 ```
 client_id = CAMPAIGN_CLIENT
 secret = 93376fe8-0f1d-4db8-8999-07ee9896cf35
 ```
 they can be obtained from `keycloak.json`
-We will have as a result response with `access_token`, `refresh_token` and `id_token` (It has 3526 bytes length)
+We will have, as a result, a response with `access_token`, `refresh_token` and `id_token` (The response has 3526 bytes length)
 ```json
 {
     "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJGQmZaenJUc3pYT1JtNlRuVkIwNVJXblY2T3BuWlliMmFYOGtKRnJfWnBNIn0.eyJqdGkiOiIxYTExZTI0Zi05MDc1LTQyMzQtODEzNi1kM2UwOTY0Njk5ZDkiLCJleHAiOjE1MDY5NDUxNjEsIm5iZiI6MCwiaWF0IjoxNTA2OTQ0ODYxLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvQ0FNUEFJR05fUkVBTE0iLCJhdWQiOiJDQU1QQUlHTl9DTElFTlQiLCJzdWIiOiJiOTQ1ZjhiYi03NGFjLTRiNWQtYTNkOC1iZDE3NmExM2U2ZjEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJDQU1QQUlHTl9DTElFTlQiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiI1ZDYyNzJhZi1mOTJiLTQwNmQtYTkwYi03OTAzMzMyOGU5ZDUiLCJhY3IiOiIxIiwiY2xpZW50X3Nlc3Npb24iOiIxNTk4MGE5ZC01NjkzLTQ3ZWQtYWM1MC1kZGUyYzM0ZmI2OWEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiQURNSU5fUk9MRSIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsInZpZXctcHJvZmlsZSJdfX0sIm5hbWUiOiIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbl91c2VyIn0.nedmYkpnkV2T_sTjqwENYqByoLGmlMEZ_6IVvczjRQJetdbamwBwEAr9Q9NkCUCqbzfnhfGsk_Q8Vplqp6j2hlDrReDDpp2KWeQCH0cLeNvfJE4ofDizq7EQAGe1qSGplc9Vd_XPUdjYr5lDBxLlEuk33JRduGeRUlamPIAEkwqwr_3eJphlbjwKp2oFzCtWGwcg0GSZ9Y1ZDcUr2AM3fFde-XZzssCPp8oIPcd6UpWOGK9AaeWTxRtM6pCnU1r0P3q_YIhplA3phTZNz9lmW01_ukgQezOXXPa58-Co5LdQbd1RHGgy6CUgHVrKPrJ-UzRzgyESdTWTc0K_Bmc9fw",
@@ -295,7 +295,44 @@ We will have as a result response with `access_token`, `refresh_token` and `id_t
     "session_state": "5d6272af-f92b-406d-a90b-79033328e9d5"
 }
 ```
+if we decode `access_token` (using https://jwt.io/), we will have (there are roles in the token)
 
+```json
+{
+  "jti": "1a11e24f-9075-4234-8136-d3e0964699d9",
+  "exp": 1506945161,
+  "nbf": 0,
+  "iat": 1506944861,
+  "iss": "http://localhost:8080/auth/realms/CAMPAIGN_REALM",
+  "aud": "CAMPAIGN_CLIENT",
+  "sub": "b945f8bb-74ac-4b5d-a3d8-bd176a13e6f1",
+  "typ": "Bearer",
+  "azp": "CAMPAIGN_CLIENT",
+  "auth_time": 0,
+  "session_state": "5d6272af-f92b-406d-a90b-79033328e9d5",
+  "acr": "1",
+  "client_session": "15980a9d-5693-47ed-ac50-dde2c34fb69a",
+  "allowed-origins": [
+    "*"
+  ],
+  "realm_access": {
+    "roles": [
+      "ADMIN_ROLE",
+      "uma_authorization"
+    ]
+  },
+  "resource_access": {
+    "account": {
+      "roles": [
+        "manage-account",
+        "view-profile"
+      ]
+    }
+  },
+  "name": "",
+  "preferred_username": "admin_user"
+}
+```
 ### Examples of Admin REST API 
 The file [adminClient.js](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/adminClient.js)
 
