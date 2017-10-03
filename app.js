@@ -4,6 +4,8 @@ let Keycloak = require('keycloak-connect');
 
 let adminClient = require('./adminClient');
 
+let CustomCookieStore = require('./customCookieStore');
+
 var jwt = require('jsonwebtoken');
 const URL = require('url');
 const http = require('http');
@@ -15,6 +17,7 @@ var express = require('express');
 var morgan = require('morgan');
 
 var session = require('express-session');
+var cookieParser = require('cookie-parser');
 
 var app = express();
 
@@ -70,12 +73,9 @@ app.use(keycloak.middleware({
 
 // custom login
 app.get('/customLoginEnter', function (req, res) {
-    let rptToken = null
+    let rptToken = null;
     keycloak.grantManager.obtainDirectly(req.query.login, req.query.password).then(grant => {
         keycloak.storeGrant(grant, req, res);
-
-
-        console.log(grant.__raw);
 
         renderIndex(req, res, rptToken);
     }, error => {
@@ -106,30 +106,27 @@ function renderIndex(req, res, rptToken, errorMessage) {
             decodedTokens: errorMessage
         });
     } else {
-        let token = req.session['keycloak-token'] || '{error: "can not get token"}';
-        let tokens = JSON.parse(token);
+        let tokens = getTokensFromStore(keycloak, req);
         res.render('index', {
             rptToken: rptToken,
             result: JSON.stringify(tokens, null, 4),
             decodedTokens: decodeTokens(tokens)
         });
     }
-
 }
 
 function initKeycloak(conf) {
     if (conf.useCookies) {
-        return new Keycloak({
+        app.use(cookieParser());
+        return fixKeycloakCookieStore(new Keycloak({
             cookies: true
-        });
+        }));
     }
-
-    // this code to store a token in the session
 
     // Create a session-store to be used by both the express-session
     // middleware and the keycloak middleware.
 
-    var memoryStore = new session.MemoryStore();
+    let memoryStore = new session.MemoryStore();
 
     app.use(session({
         secret: 'mySecret',
@@ -137,6 +134,7 @@ function initKeycloak(conf) {
         saveUninitialized: true,
         store: memoryStore
     }));
+
 
     // Provide the session store to the Keycloak so that sessions
     // can be invalidated from the Keycloak console callback.
@@ -149,9 +147,24 @@ function initKeycloak(conf) {
     });
 }
 
+function fixKeycloakCookieStore(keycloak) {
+    keycloak.stores[1] = CustomCookieStore;
+    return keycloak;
+}
+
+function getTokensFromStore(keycloak, request) {
+    let result =  keycloak.stores[1].get(request);
+
+    if (!result) {
+        return '{error: "can not get token"}';
+    }
+
+    return typeof result === 'string' ? JSON.parse(result) : result;
+}
+
 function createPermission(permissionScope) {
     return function (req, res) {
-        var tokens = JSON.parse(req.session['keycloak-token']);
+        var tokens = getTokensFromStore(keycloak, req);
 
         var permission = {
             scopes: [permissionScope]
