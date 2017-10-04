@@ -54,7 +54,8 @@ app.get('/adminApi', (req, res) => {
 });
 
 let keycloak = initKeycloak({
-    useCookies: false
+    useCookies: false,
+    tweakForCustomLogin: false
 });
 
 // Install the Keycloak middleware.
@@ -116,13 +117,21 @@ function renderIndex(req, res, rptToken, errorMessage) {
 }
 
 function initKeycloak(conf) {
-    if (conf.useCookies) {
-        app.use(cookieParser());
-        return fixKeycloakCookieStore(new Keycloak({
-            cookies: true
-        }));
+    let keycloak = conf.useCookies ? createForCookie() : createForSession();
+
+    // It doesn't need for this application. Just an example.
+    if (conf.tweakForCustomLogin) {
+        // disable redirection to Keycloak login page
+        keycloak.redirectToLogin = () => false;
+
+        // TODO It is not necessary, this function returns 403 by default
+        keycloak.accessDenied = (request, response) => response.redirect("http://localhost:3000");
     }
 
+    return keycloak;
+}
+
+function createForSession() {
     // Create a session-store to be used by both the express-session
     // middleware and the keycloak middleware.
 
@@ -147,9 +156,17 @@ function initKeycloak(conf) {
     });
 }
 
-function fixKeycloakCookieStore(keycloak) {
-    keycloak.stores[1] = CustomCookieStore;
-    return keycloak;
+function createForCookie() {
+    app.use(cookieParser());
+
+    let result = new Keycloak({
+        cookies: true
+    });
+
+    // replace CookieStore from keycloak-connect
+    result.stores[1] = CustomCookieStore;
+
+    return result;
 }
 
 function getTokensFromStore(keycloak, request) {

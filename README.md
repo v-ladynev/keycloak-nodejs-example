@@ -89,26 +89,30 @@ You will need only create users and assign them roles (Basic configuration — i
 2. You should now have the Keycloak server up and running. 
 To check that it's working open [http://localhost:8080](http://localhost:8080). 
 You will need to create a Keycloak admin user.
-Then click on `Admin Console` https://keycloak.gitbooks.io/documentation/getting_started/topics/first-boot/admin-console.html.
+Then click on `Admin Console` http://www.keycloak.org/docs/latest/server_admin/topics/admin-console.html
 
-3. Create a `CAMPAIGN_REALM` realm https://keycloak.gitbooks.io/documentation/getting_started/topics/first-realm/realm.html
+When you define your initial admin account, you are creating an account in the master realm. 
+Your initial login to the admin console will also be through the master realm.
+http://www.keycloak.org/docs/latest/server_admin/topics/realms/master.html
+
+3. Create a `CAMPAIGN_REALM` realm http://www.keycloak.org/docs/latest/server_admin/topics/realms/create.html
 
 4. Create realm roles: `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`
-https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/realm-roles.html<br><br>
+http://www.keycloak.org/docs/latest/server_admin/topics/roles/realm-roles.html<br><br>
 *Noitice*: Each client can has their own "client roles", scoped only to the client
-https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/client-roles.html
+http://www.keycloak.org/docs/latest/server_admin/topics/roles/client-roles.html
 
 5. Create users (don't forget to disable `Temporary` password)
-https://keycloak.gitbooks.io/documentation/getting_started/topics/first-realm/user.html
+http://www.keycloak.org/docs/latest/server_admin/topics/users/create-user.html
   * login: `admin_user`, password: `admin_user`
   * login: `advanced_user`, password: `advanced_user`
   * login: `basic_user`, password: `basic_user` 
 
 6. Add roles to users: `admin_user` — `ADMIN`, `advanced_user` — `ADVANCED_USER`, `basic_user` — `BASIC_USER_ROLE`
-https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/roles/user-role-mappings.html
+http://www.keycloak.org/docs/latest/server_admin/topics/roles/user-role-mappings.html
 
 7. Create a `CAMPAIGN_CLIENT`
-https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/clients/client-oidc.html
+http://www.keycloak.org/docs/latest/server_admin/topics/clients/client-oidc.html
 
   * Client ID:  `CAMPAIGN_CLIENT`
   * Client Protocol: `openid-connect`
@@ -118,13 +122,14 @@ https://keycloak.gitbooks.io/server-adminstration-guide/content/topics/clients/c
   * Direct Access Grants Enabled: `ON` **Important**: it should be `ON` for the custom login (to provide login/password via an application login page) 
   * Service Accounts Enabled: `ON` 
   * Authorization Enabled: `ON` **Important**: to add polices
-  * Valid Redirect URIs: `http://localhost:3000/*`
+  * Valid Redirect URIs: `http://localhost:3000/*`. Keycloak will use this value to check redirect URL at least for logout.
+  It can be just a wildcard `*`.
   * Web Origins: `*`
 
 ## Configure permissions
 
 1. Using `Authorization -> Policies` add role based polices
-https://keycloak.gitbooks.io/authorization-services-guide/topics/policy/role-policy.html
+http://www.keycloak.org/docs/latest/authorization_services/topics/policy/role-policy.html
   * Any Admin Policy -> `ADMIN_ROLE`
   * Admin Or Advanced User Policy -> `ADMIN_ROLE`, `ADVANCED_USER_ROLE`
   * Admin Or Advanced User Or Basic User Policy -> `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`
@@ -135,13 +140,13 @@ https://keycloak.gitbooks.io/authorization-services-guide/topics/policy/role-pol
   * scopes:report:show
 
 3. Using `Authorization -> Permissions` add scope-based permissions
-https://keycloak.gitbooks.io/authorization-services-guide/topics/permission/create-scope.html
+http://www.keycloak.org/docs/latest/authorization_services/topics/permission/create-scope.html
   * Create Campaign Permission -> Scopes: `scopes:campaign:create`, Apply Policy: `Admin Or Advanced User Policy`
   * Create Customer Permission -> Scopes: `scopes:customer:create`, Apply Policy: `Any Admin Policy`
   * Show Report Permission -> Scopes: `scopes:report:show`, Apply Policy: `Admin Or Advanced User Or Basic User Policy`
 
 10. Download `keycloak.json` using `CAMPAIGN_CLIENT -> Installation` :
-https://keycloak.gitbooks.io/securing-client-applications-guide/content/topics/oidc/nodejs-adapter.html
+http://www.keycloak.org/docs/latest/securing_apps/topics/oidc/nodejs-adapter.html
 
 ## Download and run application
 
