@@ -7,11 +7,11 @@ The code with permissions check: https://github.com/v-ladynev/keycloak-nodejs-ex
 There are three links are protected by scopes in this example. Each scope is connected to permision. 
 Permissions are connected to role-based policies. So each link can be opened only by user with given roles.
 
-| Link            | Scope                    | Roles                                                 |User                            |
-|-----------------|--------------------------|-------------------------------------------------------|--------------------------------
-| /createCustomer | `scopes:customer:create` | `ADMIN_ROLE`                                          |`(admin_user, admin_user)`      |
-| /createCampaign | `scopes:campaign:create` | `ADMIN_ROLE`, `ADVANCED_USER_ROLE`                    |`(advanced_user, advanced_user)`|
-| /showReport     | `scopes:report:show`     | `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE` |`(basic_user, basic_user)`      |
+| Link            | Scope                    | Roles                                                |User           |
+|-----------------|--------------------------|------------------------------------------------------|----------------
+| /createCustomer | `scopes:customer:create` | `ADMIN_ROLE`                                         |`admin_user`   |
+| /createCampaign | `scopes:campaign:create` | `ADMIN_ROLE`, `ADVANCED_USER_ROLE`                   |`advanced_user`|
+| /showReport     | `scopes:report:show`     | `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`|`basic_user`   |
 
 ## Download Keycloak
 
