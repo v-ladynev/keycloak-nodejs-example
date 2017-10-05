@@ -7,11 +7,11 @@ The code with permissions check: https://github.com/v-ladynev/keycloak-nodejs-ex
 There are three links are protected by scopes in this example. Each scope is connected to permision. 
 Permissions are connected to role-based policies. So each link can be opened only by user with given roles.
 
-| Link            | Scope                    | Roles                                                 |
-|-----------------|--------------------------|-------------------------------------------------------|
-| /createCustomer | `scopes:customer:create` | `ADMIN_ROLE`       |
-| /createCampaign | `scopes:campaign:create` | `ADMIN_ROLE`, `ADVANCED_USER_ROLE`                                          |
-| /showReport     | `scopes:report:show`     | `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE` |
+| Link            | Scope                    | Roles                                                 |User                            |
+|-----------------|--------------------------|-------------------------------------------------------|--------------------------------
+| /createCustomer | `scopes:customer:create` | `ADMIN_ROLE`                                          |`(admin_user, admin_user)`      |
+| /createCampaign | `scopes:campaign:create` | `ADMIN_ROLE`, `ADVANCED_USER_ROLE`                    |`(advanced_user, advanced_user)`|
+| /showReport     | `scopes:report:show`     | `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE` |`(basic_user, basic_user)`      |
 
 ## Download Keycloak
 
@@ -287,7 +287,7 @@ where (they can be obtained from `keycloak.json`)
 client_id = CAMPAIGN_CLIENT
 secret = 93376fe8-0f1d-4db8-8999-07ee9896cf35
 ```
-This is just an example, the secret can be different).
+This is just an example, the secret can be different.
 
 We will have, as a result, a response with `access_token`, `refresh_token` and `id_token` (The response has 3526 bytes length)
 ```json
