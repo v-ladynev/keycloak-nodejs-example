@@ -367,11 +367,13 @@ http://www.keycloak.org/docs-api/2.5/rest-api/index.html#_userrepresentation
 
 [Requesting Entitlements](https://keycloak.gitbooks.io/authorization-services-guide/topics/service/entitlement/entitlement-api-aapi.html)
 
+https://stackoverflow.com/questions/42186537/resources-scopes-permissions-and-policies-in-keycloak
+
 ## Links
 
 [Keycloak Admin REST API](http://www.keycloak.org/docs-api/2.5/rest-api/index.html)<br>
 [Change Keycloak login page, get security tokens using REST](http://stackoverflow.com/questions/39356300/avoid-keycloak-default-login-page-and-use-project-login-page)<br>
-[Obtain access token for user](https://keycloak.gitbooks.io/server-developer-guide/content/v/2.2/topics/admin-rest-api.html)
+[Obtain access token for user](http://www.keycloak.org/docs/latest/server_development/topics/admin-rest-api.html)
 
 Keycloak uses _JSON web token (JWT)_ as a barier token format. To decode such tokens: https://jwt.io/
 
