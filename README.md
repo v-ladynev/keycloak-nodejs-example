@@ -15,13 +15,13 @@ Permissions are connected to role-based policies. So each link can be opened onl
 
 ## Download Keycloak
 
-Download the last version of Keycloak (this example uses 2.5.4.Final)
+Download the last version of Keycloak (this example uses 3.2.1.Final)
 http://www.keycloak.org/downloads.html
 
 ## Configure Keycloak to use MySQL
 
 Perform this steps to get MySQL configured for Keycloak:
-https://keycloak.gitbooks.io/server-installation-and-configuration/content/topics/database/checklist.html
+http://www.keycloak.org/docs/latest/server_installation/topics/database/checklist.html
 
 There is an error in the documentation — driver should be in the
 `modules/system/layers/base/com/mysql/driver/main` catalog. 
@@ -78,9 +78,15 @@ Database schema creation takes a long time.
 Realm, Client and Polices configuration can be imported using this file:
 [CAMPAIGN_REALM-realm.json](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/import_realm_json/CAMPAIGN_REALM-realm.json)
 
-https://keycloak.gitbooks.io/getting-started-tutorials/content/topics/first-realm/realm.html
-
 You will need only create users and assign them roles (Basic configuration — item 5, 6)
+
+###Import via Keycloak UI
+You will need to select file ti import on the `Add Realm` page.
+http://www.keycloak.org/docs/latest/getting_started/topics/first-realm/realm.html
+
+### Import at sever boot time
+Export and import is triggered at server boot time and its parameters are passed in via Java system properties. 
+http://www.keycloak.org/docs/latest/server_admin/topics/export-import.html
 
 ## Basic configuration
 
@@ -365,9 +371,13 @@ http://www.keycloak.org/docs-api/2.5/rest-api/index.html#_userrepresentation
 
 ## Check permissions using REST API
 
-[Requesting Entitlements](https://keycloak.gitbooks.io/authorization-services-guide/topics/service/entitlement/entitlement-api-aapi.html)
+[Requesting Entitlements](http://www.keycloak.org/docs/latest/authorization_services/topics/service/entitlement/entitlement-api-aapi.html)
 
 https://stackoverflow.com/questions/42186537/resources-scopes-permissions-and-policies-in-keycloak
+
+## Secure URL
+
+https://stackoverflow.com/questions/12276046/nodejs-express-how-to-secure-a-url
 
 ## Links
 
