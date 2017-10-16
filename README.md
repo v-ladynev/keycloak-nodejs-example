@@ -4,17 +4,17 @@ A simply step by step Keycloak, MySQL and Node.js integration tutorial.
 
 This is a simply Node.js REST application with checking permissions. The code with permissions check: https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js
 
-This applications has REST resources to work with _customers_, _campaigns_ and _reports_. We will protect all endpoints
+This applications has REST API to work with _customers_, _campaigns_ and _reports_. We will protect all endpoints
 based on permissions are configured using Keycloak.
 
-| URL      | Method |    Permission   |   Resource   |     Scope     |                     Roles                    |
-|:------- :|:------:|:---------------:|:------------:|:-------------:|:--------------------------------------------:|
-|/customers| POST   | customer-create | res:customer | scopes:create | admin                                        |
-|/customers| GET    | customer-view   | res:customer | scopes:view   | admin, customer-advertiser, customer-analyst |
-|/campaigns| POST   | campaign-create | res:campaign | scopes:create | admin, customer-advertiser                   |
-|/campaigns| GET    | campaign-view   | res:campaign | scopes:view   | admin, customer-advertiser, customer-analyst |
-|/reports  | POST   | report-create   | res:report   | scopes:create | customer-analyst                             |
-|/reports  | GET    | report-view     | res:report   | scopes:view   | admin, customer-advertiser, customer-analyst |
+| URL        | Method |    Permission   |   Resource   |     Scope     |                     Roles                    |
+|:----------:|:------:|:---------------:|:------------:|:-------------:|:--------------------------------------------:|
+| /customers | POST   | customer-create | res:customer | scopes:create | admin                                        |
+| /customers | GET    | customer-view   | res:customer | scopes:view   | admin, customer-advertiser, customer-analyst |
+| /campaigns | POST   | campaign-create | res:campaign | scopes:create | admin, customer-advertiser                   |
+| /campaigns | GET    | campaign-view   | res:campaign | scopes:view   | admin, customer-advertiser, customer-analyst |
+| /reports   | POST   | report-create   | res:report   | scopes:create | customer-analyst                             |
+| /reports   | GET    | report-view     | res:report   | scopes:view   | admin, customer-advertiser, customer-analyst |
 
 Application will use combination of _(resource, scope)_ to check a permission. We will configure Keycloak to use polices
 are based on roles. But for the application only a combination of _(resource, scope)_ is important. We can configure Keycloak
