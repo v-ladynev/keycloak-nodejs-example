@@ -85,7 +85,7 @@ You will need only create users and assign them roles (Basic configuration — i
 You will need to select file to import on the `Add Realm` page.
 http://www.keycloak.org/docs/latest/getting_started/topics/first-realm/realm.html
 
-### Import at sever boot time
+### Import at server boot time
 Export and import is triggered at server boot time and its parameters are passed in via Java system properties. 
 http://www.keycloak.org/docs/latest/server_admin/topics/export-import.html
 
@@ -161,14 +161,9 @@ Using `Authorization -> Authorization Scopes` add scopes
   * scopes:create
   * scopes:view  
 
-
-3. Using `Authorization -> Permissions` add scope-based permissions
-http://www.keycloak.org/docs/latest/authorization_services/topics/permission/create-scope.html
-  * Create Campaign Permission -> Scopes: `scopes:campaign:create`, Apply Policy: `Admin Or Advanced User Policy`
-  * Create Customer Permission -> Scopes: `scopes:customer:create`, Apply Policy: `Any Admin Policy`
-  * Show Report Permission -> Scopes: `scopes:report:show`, Apply Policy: `Admin Or Advanced User Or Basic User Policy`
-
 ### Add resources
+
+Using `Authorization -> Resources` add resourcess. Scopes should be entered in the `Scopes` field for every resource.
 
 | Resource Name | Scopes                     |
 |---------------|----------------------------|
@@ -176,7 +171,22 @@ http://www.keycloak.org/docs/latest/authorization_services/topics/permission/cre
 | res:customer  | scopes:create, scopes:view |
 | res:report    | scopes:create, scopes:view |
 
+### Add scope-based permissions
 
+Using `Authorization -> Permissions` add scope-based permissions
+http://www.keycloak.org/docs/latest/authorization_services/topics/permission/create-scope.html
+
+Set *decision strategy* for every permission 
+Decision Strategy: `Affirmative`
+
+|    Permission   |   Resource   |     Scope     |                     Polices                  |
+|:---------------:|:------------:|:-------------:|:--------------------------------------------:|
+| customer-create | res:customer | scopes:create | Admin                                        |
+| customer-view   | res:customer | scopes:view   | Admin or Advertiser or Analyst               |
+| campaign-create | res:campaign | scopes:create | Admin, Advertiser                            |
+| campaign-view   | res:campaign | scopes:view   | Admin or Advertiser or Analyst               |
+| report-create   | res:report   | scopes:create | Analyst                                      |
+| report-view     | res:report   | scopes:view   | Admin or Advertiser or Analyst               |
 
 10. Download `keycloak.json` using `CAMPAIGN_CLIENT -> Installation` :
 http://www.keycloak.org/docs/latest/securing_apps/topics/oidc/nodejs-adapter.html
