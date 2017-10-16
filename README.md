@@ -137,9 +137,16 @@ http://www.keycloak.org/docs/latest/server_admin/topics/clients/client-oidc.html
 
 1. Using `Authorization -> Policies` add role based polices
 http://www.keycloak.org/docs/latest/authorization_services/topics/policy/role-policy.html
-  * Any Admin Policy -> `ADMIN_ROLE`
-  * Admin Or Advanced User Policy -> `ADMIN_ROLE`, `ADVANCED_USER_ROLE`
-  * Admin Or Advanced User Or Basic User Policy -> `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`
+  * `Admin` policy -> `admin` role
+  * `Advertiser` policy -> `customer-advertiser` role
+  * `Analyst` policy -> `customer-analyst` role
+  
+2. Using `Authorization -> Policies` add an aggregated policy
+http://www.keycloak.org/docs/latest/authorization_services/topics/policy/aggregated-policy.html  
+  
+  Polycy name: `Admin or Advertiser or Analyst`
+  Apply Policy: `Admin`, `Advertiser`, `Analyst`
+  
  
 2. Using `Authorization -> Authorization Scopes` add scopes
   * scopes:campaign:create
