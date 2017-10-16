@@ -1,17 +1,20 @@
 # keycloak-nodejs-example
 
-A simply step by step Keycloak, MySQL and Node.js integration tutorial.<br>
-There is a simply Node.js application with checking permissions.<br>
-The code with permissions check: https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js
+A simply step by step Keycloak, MySQL and Node.js integration tutorial.
+
+This is a simply Node.js application with checking permissions. The code with permissions check: https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js
 
 There are three links are protected by scopes in this example. Each scope is connected to permision. 
 Permissions are connected to role-based policies. So each link can be opened only by user with given roles.
 
-| Link            | Scope                    | Roles                                                |User           |
-|-----------------|--------------------------|------------------------------------------------------|----------------
-| /createCustomer | `scopes:customer:create` | `ADMIN_ROLE`                                         |`admin_user`   |
-| /createCampaign | `scopes:campaign:create` | `ADMIN_ROLE`, `ADVANCED_USER_ROLE`                   |`advanced_user`|
-| /showReport     | `scopes:report:show`     | `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`|`basic_user`   |
+| URL        | Method |    Permission   |   Resource   |     Scope     |                     Roles                    |
+|:----------:|:------:|:---------------:|:------------:|:-------------:|:--------------------------------------------:|
+| /customers | POST   | customer-create | res:customer | scopes:create | admin                                        |
+| /customers | GET    | customer-view   | res:customer | scopes:view   | admin, customer-advertiser, customer-analyst |
+| /campaigns | POST   | campaign-create | res:campaign | scopes:create | admin, customer-advertiser                   |
+| /campaigns | GET    | campaign-view   | res:campaign | scopes:view   | admin, customer-advertiser, customer-analyst |
+| /reports   | POST   | report-create   | res:report   | scopes:create | customer-analyst                             |
+| /reports   | GET    | report-view     | res:report   | scopes:view   | admin, customer-advertiser, customer-analyst |
 
 ## Download Keycloak
 
@@ -23,7 +26,7 @@ http://www.keycloak.org/downloads.html
 Perform this steps to get MySQL configured for Keycloak:
 http://www.keycloak.org/docs/latest/server_installation/topics/database/checklist.html
 
-There is an error in the documentation — driver should be in the
+**Important:** There is an error in the documentation — driver should be in the
 `modules/system/layers/base/com/mysql/driver/main` catalog. 
 
 The last MySQL driver
@@ -115,7 +118,10 @@ http://www.keycloak.org/docs/latest/server_admin/topics/users/create-user.html
   * login: `advertiser_user`, password: `advertiser_user`
   * login: `analyst_user`, password: `analyst_user` 
 
-6. Add roles to users: `admin_user` — `admin`, `advertiser_user` — `customer-advertiser`, `analyst_user` — `customer-analyst`
+6. Add roles to users: 
+* `admin_user` — `admin`
+* `advertiser_user` — `customer-advertiser`
+* `analyst_user` — `customer-analyst`
 http://www.keycloak.org/docs/latest/server_admin/topics/roles/user-role-mappings.html
 
 7. Create a `CAMPAIGN_CLIENT`
@@ -151,9 +157,9 @@ Aggregated Policy*
 This policy consist of an aggregation of other polices
 http://www.keycloak.org/docs/latest/authorization_services/topics/policy/aggregated-policy.html  
   
-Polycy name: `Admin or Advertiser or Analyst`
-Apply Policy: `Admin`, `Advertiser`, `Analyst`
-Decision Strategy: Affirmative
+* Polycy name: `Admin or Advertiser or Analyst`
+* Apply Policy: `Admin`, `Advertiser`, `Analyst`
+* Decision Strategy: `Affirmative`
  
  ### Add scopes
  
@@ -177,7 +183,7 @@ Using `Authorization -> Permissions` add scope-based permissions
 http://www.keycloak.org/docs/latest/authorization_services/topics/permission/create-scope.html
 
 Set *decision strategy* for every permission 
-Decision Strategy: `Affirmative`
+* Decision Strategy: `Affirmative`
 
 |    Permission   |   Resource   |     Scope     |                     Polices                  |
 |:---------------:|:------------:|:-------------:|:--------------------------------------------:|
