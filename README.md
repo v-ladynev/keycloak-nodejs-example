@@ -135,29 +135,48 @@ http://www.keycloak.org/docs/latest/server_admin/topics/clients/client-oidc.html
 
 ## Configure permissions
 
-1. Using `Authorization -> Policies` add role based polices
+### Add polices
+
+Using `Authorization -> Policies` add role based polices
 http://www.keycloak.org/docs/latest/authorization_services/topics/policy/role-policy.html
-  * `Admin` policy -> `admin` role
-  * `Advertiser` policy -> `customer-advertiser` role
-  * `Analyst` policy -> `customer-analyst` role
-  
-2. Using `Authorization -> Policies` add an aggregated policy
+
+| Policy                         | Role                |
+|--------------------------------|---------------------|
+| Admin                          | admin               |
+| Advertiser                     | customer-advertiser |
+| Analyst                        | customer-analyst    |
+| Admin or Advertiser or Analyst | Aggregated Policy*  |  
+
+Aggregated Policy*
+This policy consist of an aggregation of other polices
 http://www.keycloak.org/docs/latest/authorization_services/topics/policy/aggregated-policy.html  
   
-  Polycy name: `Admin or Advertiser or Analyst`
-  Apply Policy: `Admin`, `Advertiser`, `Analyst`
-  
+Polycy name: `Admin or Advertiser or Analyst`
+Apply Policy: `Admin`, `Advertiser`, `Analyst`
+Decision Strategy: Affirmative
  
-2. Using `Authorization -> Authorization Scopes` add scopes
-  * scopes:campaign:create
-  * scopes:customer:create
-  * scopes:report:show
+ ### Add scopes
+ 
+Using `Authorization -> Authorization Scopes` add scopes
+  * scopes:create
+  * scopes:view  
+
 
 3. Using `Authorization -> Permissions` add scope-based permissions
 http://www.keycloak.org/docs/latest/authorization_services/topics/permission/create-scope.html
   * Create Campaign Permission -> Scopes: `scopes:campaign:create`, Apply Policy: `Admin Or Advanced User Policy`
   * Create Customer Permission -> Scopes: `scopes:customer:create`, Apply Policy: `Any Admin Policy`
   * Show Report Permission -> Scopes: `scopes:report:show`, Apply Policy: `Admin Or Advanced User Or Basic User Policy`
+
+### Add resources
+
+| Resource Name | Scopes                     |
+|---------------|----------------------------|
+| res:campaign  | scopes:create, scopes:view |
+| res:customer  | scopes:create, scopes:view |
+| res:report    | scopes:create, scopes:view |
+
+
 
 10. Download `keycloak.json` using `CAMPAIGN_CLIENT -> Installation` :
 http://www.keycloak.org/docs/latest/securing_apps/topics/oidc/nodejs-adapter.html
