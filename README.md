@@ -43,6 +43,7 @@ https://mvnrepository.com/artifact/mysql/mysql-connector-java
 ```
 
 ##### `part of  standalone.xml`
+You will need to create a `keycloak` schema in the MySQL database for this example. Also don't forget to remove existing `java:jboss/datasources/KeycloakDS` datasource.
 ```XML
 <datasources>
 ...
@@ -80,8 +81,8 @@ Realm, Client and Polices configuration can be imported using this file:
 
 You will need only create users and assign them roles (Basic configuration — item 5, 6)
 
-###Import via Keycloak UI
-You will need to select file ti import on the `Add Realm` page.
+### Import via Keycloak UI
+You will need to select file to import on the `Add Realm` page.
 http://www.keycloak.org/docs/latest/getting_started/topics/first-realm/realm.html
 
 ### Import at sever boot time
@@ -103,7 +104,7 @@ http://www.keycloak.org/docs/latest/server_admin/topics/realms/master.html
 
 3. Create a `CAMPAIGN_REALM` realm http://www.keycloak.org/docs/latest/server_admin/topics/realms/create.html
 
-4. Create realm roles: `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`
+4. Create realm roles: `admin`, `customer-advertiser`, `customer-analyst`
 http://www.keycloak.org/docs/latest/server_admin/topics/roles/realm-roles.html<br><br>
 *Noitice*: Each client can has their own "client roles", scoped only to the client
 http://www.keycloak.org/docs/latest/server_admin/topics/roles/client-roles.html
@@ -111,10 +112,10 @@ http://www.keycloak.org/docs/latest/server_admin/topics/roles/client-roles.html
 5. Create users (don't forget to disable `Temporary` password)
 http://www.keycloak.org/docs/latest/server_admin/topics/users/create-user.html
   * login: `admin_user`, password: `admin_user`
-  * login: `advanced_user`, password: `advanced_user`
-  * login: `basic_user`, password: `basic_user` 
+  * login: `advertiser_user`, password: `advertiser_user`
+  * login: `analyst_user`, password: `analyst_user` 
 
-6. Add roles to users: `admin_user` — `ADMIN`, `advanced_user` — `ADVANCED_USER`, `basic_user` — `BASIC_USER_ROLE`
+6. Add roles to users: `admin_user` — `admin`, `advertiser_user` — `customer-advertiser`, `analyst_user` — `customer-analyst`
 http://www.keycloak.org/docs/latest/server_admin/topics/roles/user-role-mappings.html
 
 7. Create a `CAMPAIGN_CLIENT`
