@@ -1,17 +1,24 @@
 # keycloak-nodejs-example
 
-A simply step by step Keycloak, MySQL and Node.js integration tutorial.<br>
-There is a simply Node.js application with checking permissions.<br>
-The code with permissions check: https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/appxxx.js
+A simply step by step Keycloak, MySQL and Node.js integration tutorial.
 
-There are three links are protected by scopes in this example. Each scope is connected to permision. 
-Permissions are connected to role-based policies. So each link can be opened only by user with given roles.
+This is a simply Node.js REST application with checking permissions. The code with permissions check: https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js
 
-| Link            | Scope                    | Roles                                                |User           |
-|-----------------|--------------------------|------------------------------------------------------|----------------
-| /createCustomer | `scopes:customer:create` | `ADMIN_ROLE`                                         |`admin_user`   |
-| /createCampaign | `scopes:campaign:create` | `ADMIN_ROLE`, `ADVANCED_USER_ROLE`                   |`advanced_user`|
-| /showReport     | `scopes:report:show`     | `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`|`basic_user`   |
+This applications has REST API to work with _customers_, _campaigns_ and _reports_. We will protect all endpoints
+based on permissions are configured using Keycloak.
+
+| URL        | Method |    Permission   |   Resource   |     Scope     |                     Roles                    |
+|:----------:|:------:|:---------------:|:------------:|:-------------:|:--------------------------------------------:|
+| /customers | POST   | customer-create | res:customer | scopes:create | admin                                        |
+| /customers | GET    | customer-view   | res:customer | scopes:view   | admin, customer-advertiser, customer-analyst |
+| /campaigns | POST   | campaign-create | res:campaign | scopes:create | admin, customer-advertiser                   |
+| /campaigns | GET    | campaign-view   | res:campaign | scopes:view   | admin, customer-advertiser, customer-analyst |
+| /reports   | POST   | report-create   | res:report   | scopes:create | customer-analyst                             |
+| /reports   | GET    | report-view     | res:report   | scopes:view   | admin, customer-advertiser, customer-analyst |
+
+Application will use combination of _(resource, scope)_ to check a permission. We will configure Keycloak to use polices
+are based on roles. But for the application only a combination of _(resource, scope)_ is important. We can configure Keycloak
+using something other than roles, without changing the application.
 
 ## Download Keycloak
 
@@ -23,7 +30,7 @@ http://www.keycloak.org/downloads.html
 Perform this steps to get MySQL configured for Keycloak:
 http://www.keycloak.org/docs/latest/server_installation/topics/database/checklist.html
 
-There is an error in the documentation — driver should be in the
+**Important:** There is an error in the documentation — driver should be in the
 `modules/system/layers/base/com/mysql/driver/main` catalog. 
 
 The last MySQL driver
@@ -43,6 +50,7 @@ https://mvnrepository.com/artifact/mysql/mysql-connector-java
 ```
 
 ##### `part of  standalone.xml`
+You will need to create a `keycloak` schema in the MySQL database for this example. Also don't forget to remove existing `java:jboss/datasources/KeycloakDS` datasource.
 ```XML
 <datasources>
 ...
@@ -80,11 +88,11 @@ Realm, Client and Polices configuration can be imported using this file:
 
 You will need only create users and assign them roles (Basic configuration — item 5, 6)
 
-###Import via Keycloak UI
-You will need to select file ti import on the `Add Realm` page.
+### Import via Keycloak UI
+You will need to select file to import on the `Add Realm` page.
 http://www.keycloak.org/docs/latest/getting_started/topics/first-realm/realm.html
 
-### Import at sever boot time
+### Import at server boot time
 Export and import is triggered at server boot time and its parameters are passed in via Java system properties. 
 http://www.keycloak.org/docs/latest/server_admin/topics/export-import.html
 
@@ -103,7 +111,7 @@ http://www.keycloak.org/docs/latest/server_admin/topics/realms/master.html
 
 3. Create a `CAMPAIGN_REALM` realm http://www.keycloak.org/docs/latest/server_admin/topics/realms/create.html
 
-4. Create realm roles: `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`
+4. Create realm roles: `admin`, `customer-advertiser`, `customer-analyst`
 http://www.keycloak.org/docs/latest/server_admin/topics/roles/realm-roles.html<br><br>
 *Noitice*: Each client can has their own "client roles", scoped only to the client
 http://www.keycloak.org/docs/latest/server_admin/topics/roles/client-roles.html
@@ -111,10 +119,13 @@ http://www.keycloak.org/docs/latest/server_admin/topics/roles/client-roles.html
 5. Create users (don't forget to disable `Temporary` password)
 http://www.keycloak.org/docs/latest/server_admin/topics/users/create-user.html
   * login: `admin_user`, password: `admin_user`
-  * login: `advanced_user`, password: `advanced_user`
-  * login: `basic_user`, password: `basic_user` 
+  * login: `advertiser_user`, password: `advertiser_user`
+  * login: `analyst_user`, password: `analyst_user` 
 
-6. Add roles to users: `admin_user` — `ADMIN`, `advanced_user` — `ADVANCED_USER`, `basic_user` — `BASIC_USER_ROLE`
+6. Add roles to users: 
+* `admin_user` — `admin`
+* `advertiser_user` — `customer-advertiser`
+* `analyst_user` — `customer-analyst`
 http://www.keycloak.org/docs/latest/server_admin/topics/roles/user-role-mappings.html
 
 7. Create a `CAMPAIGN_CLIENT`
@@ -134,22 +145,58 @@ http://www.keycloak.org/docs/latest/server_admin/topics/clients/client-oidc.html
 
 ## Configure permissions
 
-1. Using `Authorization -> Policies` add role based polices
-http://www.keycloak.org/docs/latest/authorization_services/topics/policy/role-policy.html
-  * Any Admin Policy -> `ADMIN_ROLE`
-  * Admin Or Advanced User Policy -> `ADMIN_ROLE`, `ADVANCED_USER_ROLE`
-  * Admin Or Advanced User Or Basic User Policy -> `ADMIN_ROLE`, `ADVANCED_USER_ROLE`, `BASIC_USER_ROLE`
- 
-2. Using `Authorization -> Authorization Scopes` add scopes
-  * scopes:campaign:create
-  * scopes:customer:create
-  * scopes:report:show
+### Add polices
 
-3. Using `Authorization -> Permissions` add scope-based permissions
+Using `Authorization -> Policies` add role based polices
+http://www.keycloak.org/docs/latest/authorization_services/topics/policy/role-policy.html
+
+| Policy                         | Role                |
+|--------------------------------|---------------------|
+| Admin                          | admin               |
+| Advertiser                     | customer-advertiser |
+| Analyst                        | customer-analyst    |
+| Admin or Advertiser or Analyst | Aggregated Policy*  |  
+
+Aggregated Policy*
+This policy consist of an aggregation of other polices
+http://www.keycloak.org/docs/latest/authorization_services/topics/policy/aggregated-policy.html  
+  
+* Polycy name: `Admin or Advertiser or Analyst`
+* Apply Policy: `Admin`, `Advertiser`, `Analyst`
+* Decision Strategy: `Affirmative`
+ 
+ ### Add scopes
+ 
+Using `Authorization -> Authorization Scopes` add scopes
+  * scopes:create
+  * scopes:view  
+
+### Add resources
+
+Using `Authorization -> Resources` add resourcess. Scopes should be entered in the `Scopes` field for every resource.
+
+| Resource Name | Scopes                     |
+|---------------|----------------------------|
+| res:campaign  | scopes:create, scopes:view |
+| res:customer  | scopes:create, scopes:view |
+| res:report    | scopes:create, scopes:view |
+
+### Add scope-based permissions
+
+Using `Authorization -> Permissions` add scope-based permissions
 http://www.keycloak.org/docs/latest/authorization_services/topics/permission/create-scope.html
-  * Create Campaign Permission -> Scopes: `scopes:campaign:create`, Apply Policy: `Admin Or Advanced User Policy`
-  * Create Customer Permission -> Scopes: `scopes:customer:create`, Apply Policy: `Any Admin Policy`
-  * Show Report Permission -> Scopes: `scopes:report:show`, Apply Policy: `Admin Or Advanced User Or Basic User Policy`
+
+Set *decision strategy* for every permission 
+* Decision Strategy: `Affirmative`
+
+|    Permission   |   Resource   |     Scope     |                     Polices                  |
+|:---------------:|:------------:|:-------------:|:--------------------------------------------:|
+| customer-create | res:customer | scopes:create | Admin                                        |
+| customer-view   | res:customer | scopes:view   | Admin or Advertiser or Analyst               |
+| campaign-create | res:campaign | scopes:create | Admin, Advertiser                            |
+| campaign-view   | res:campaign | scopes:view   | Admin or Advertiser or Analyst               |
+| report-create   | res:report   | scopes:create | Analyst                                      |
+| report-view     | res:report   | scopes:view   | Admin or Advertiser or Analyst               |
 
 10. Download `keycloak.json` using `CAMPAIGN_CLIENT -> Installation` :
 http://www.keycloak.org/docs/latest/securing_apps/topics/oidc/nodejs-adapter.html
@@ -258,7 +305,7 @@ sudo docker build -t keycloak-mysql-realm-users ./docker/import_realm_users
 
 Keycloak, by default, uses an own page to login a user. There is an example, how to use an application login page.
 `Direct Access Grants` should be enabled in that case (https://github.com/v-ladynev/keycloak-nodejs-example#basic-configuration)
-The file [appxxx.js](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js)
+The file [app.js](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js)
  
 ```javascript 
  app.get('/customLoginEnter', function (req, res) {
