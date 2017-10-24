@@ -2,7 +2,7 @@
 
 A simply step by step Keycloak, MySQL and Node.js integration tutorial.<br>
 There is a simply Node.js application with checking permissions.<br>
-The code with permissions check: https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js
+The code with permissions check: https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/appxxx.js
 
 There are three links are protected by scopes in this example. Each scope is connected to permision. 
 Permissions are connected to role-based policies. So each link can be opened only by user with given roles.
@@ -258,7 +258,7 @@ sudo docker build -t keycloak-mysql-realm-users ./docker/import_realm_users
 
 Keycloak, by default, uses an own page to login a user. There is an example, how to use an application login page.
 `Direct Access Grants` should be enabled in that case (https://github.com/v-ladynev/keycloak-nodejs-example#basic-configuration)
-The file [app.js](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js)
+The file [appxxx.js](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js)
  
 ```javascript 
  app.get('/customLoginEnter', function (req, res) {

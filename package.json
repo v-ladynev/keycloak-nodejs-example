@@ -2,9 +2,9 @@
   "name": "keycloack-nodejs-example",
   "version": "1.0.0",
   "description": "An example of integration Node.js and Keycloack",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -14,13 +14,12 @@
   "author": "V.Ladynev",
   "dependencies": {
     "express": "*",
-    "express-session": "*",
-    "hogan-express": "*",
     "cookie-parser": "*",
+    "core-js": "^2.4.1",
     "jsonwebtoken": "^7.3.0",
+    "url-pattern": "^1.0.3",
     "keycloak-admin-client": "0.11.0",
     "keycloak-connect": "3.3.0-cr.2",
-    "keycloak-request-token": "^0.1.0",
-    "morgan": "^1.8.1"
+    "keycloak-request-token": "^0.1.0"
   }
 }

@@ -4,7 +4,7 @@
   "ssl-required": "external",
   "resource": "CAMPAIGN_CLIENT",
   "credentials": {
-    "secret": "93376fe8-0f1d-4db8-8999-07ee9896cf35"
+    "secret": "6d979be5-cb81-4d5c-9fc7-45d1b0c7a75e"
   },
   "policy-enforcer": {}
 }

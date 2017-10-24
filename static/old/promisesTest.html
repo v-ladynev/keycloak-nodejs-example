@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+
+<script>
+
+    createSuccess().then(result => document.writeln(result));
+    createFailure().catch(result => document.writeln(result));
+    createFailureException().catch(result => document.writeln(result));
+
+    createSuccess().then(result => {
+        throw new Error('Error in then');
+    }).catch(result => document.writeln(result));
+
+    // not catch an error
+    createSuccess().then(result => {
+        throw new Error('Error in then');
+    }, result => document.writeln(result));
+
+
+    function createSuccess() {
+        return new Promise((accept, reject) => {
+            accept('success');
+        });
+    }
+
+    function createFailure() {
+        return new Promise((accept, reject) => {
+            reject('failure');
+        });
+    }
+
+    function createFailureException() {
+        return new Promise((accept, reject) => {
+            throw new Error('failure exception');
+        });
+    }
+
+    function nextPromise(message) {
+        return new Promise((accept, reject) => {
+            setTimeout(() => {
+                console.log(message + ' accept');
+                accept(message + ' in 1 second');
+            }, 1000);
+        });
+
+    }
+    function create(message, success) {
+        return new Promise((accept, reject) => {
+            if (success) {
+                accept(message);
+            } else {
+                reject(message);
+            }
+        });
+    }
+
+    function doSomething() {
+        console.log('doSomething(): start');
+        return new Promise(function (resolve) {
+            setTimeout(function () {
+                console.log('doSomething(): end');
+                resolve('result begin');
+            }, 1000);
+        });
+    }
+
+    function doSomethingElse(message) {
+        console.log('doSomethingElse(): start');
+        return new Promise(function (resolve) {
+            setTimeout(function () {
+                console.log('doSomethingElse(): end');
+                resolve(message + ' doSomethingElse result');
+            }, 1000);
+        });
+    }
+
+    function finalHandler(message) {
+        console.log('finalHandler(): start');
+        return new Promise(function (resolve) {
+            setTimeout(function () {
+                console.log('finalHandler(): end');
+                resolve(message);
+            }, 1000);
+        });
+    }
+
+
+    //example1();
+
+    //example2();
+
+    //example3();
+
+    //example4();
+
+    function example1() {
+        doSomething().then(function (message) {
+            return doSomethingElse(message);
+        }).then(finalHandler).then(message => console.log('example1: ' + message));
+    }
+
+    function example2() {
+        doSomething().then(function (message) {
+            doSomethingElse(message);
+        }).then(finalHandler).then(message => console.log('example2: ' + message));
+    }
+
+    function example3() {
+        doSomething().then(doSomethingElse())
+            .then(finalHandler).then(message => console.log('example3: ' + message));
+    }
+
+    function example4() {
+        doSomething().then(doSomethingElse)
+            .then(finalHandler).then(message => console.log('example4: ' + message));
+    }
+
+</script>
+
+</body>
+</html>
