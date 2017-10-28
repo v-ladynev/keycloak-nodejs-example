@@ -16,9 +16,10 @@ based on permissions are configured using Keycloak.
 | /reports   | POST   | report-create   | res:report   | scopes:create | customer-analyst                             |
 | /reports   | GET    | report-view     | res:report   | scopes:view   | admin, customer-advertiser, customer-analyst |
 
-Application will use combination of _(resource, scope)_ to check a permission. We will configure Keycloak to use polices
-are based on roles. But for the application only a combination of _(resource, scope)_ is important. We can configure Keycloak
-using something other than roles, without changing the application.
+The application will use a combination of _(resource, scope)_ to check a permission. 
+We will configure Keycloak to use polices are based on roles. 
+But for the application a combination of _(resource, scope)_ is important only.
+We can configure Keycloak using something other than roles, without changing the application.
 
 ## Download Keycloak
 

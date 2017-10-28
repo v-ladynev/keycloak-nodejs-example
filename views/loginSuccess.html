@@ -1,0 +1,36 @@
+<html>
+<head>
+</head>
+<body>
+
+<h1 style="width: 100%; text-align: center;">Success user: {{userLogin}}</h1>
+<a href="/campaigns">GET /campaigns</a>
+<br><br>
+<a href="/campaigns/123">GET /campaigns/123</a>
+<br><br>
+<a href="/customers">GET /customers</a>
+<br><br>
+<a href="/reports">GET /reports</a>
+<br><br>
+<a href="/reports/123">GET /reports/123</a>
+<br><br>
+<form action="/campaigns" method="post">
+    <button type="submit">POST /campaigns</button>
+</form>
+
+<form action="/customers" method="post">
+    <button type="submit">POST /customers</button>
+</form>
+
+<form action="/reports" method="post">
+    <button type="submit">POST /reports</button>
+</form>
+
+<a href="/permissions">Get list of all permissions</a>
+<br><br>
+<a href="/checkPermission">Check permission (res:customer, scopes:create)</a>
+<br><br>
+
+<a href="/logout">Logout</a>
+</body>
+</html>

@@ -2,8 +2,10 @@
 
 const Express = require("express");
 const path = require("path");
+const hogan = require('hogan-express');
 const cookieParser = require("cookie-parser");
-let Permissions = require("./lib/permissions");
+
+const Permissions = require("./lib/permissions");
 const KeyCloakService = require("./lib/keyCloakService");
 
 /**
@@ -17,23 +19,28 @@ const PERMISSIONS = new Permissions([
     ['/campaigns(*)', 'get', 'res:campaign', 'scopes:view'],
     ['/reports', 'post', 'res:report', 'scopes:create'],
     ['/reports(*)', 'get', 'res:report', 'scopes:view']
-]).notProtect('/favicon.ico', // TODO delete this
-    '/login(*)', '/permissions', // TODO delete this, now it is protected because of we need an access token
+]).notProtect(
+    '/favicon.ico', // TODO delete this
+    '/login(*)',
+    '/accessDenied',
+    '/permissions', // TODO delete this, now it is protected because of we need an access token
     '/checkPermission', // TODO delete this, now it is protected because of we need an access token
     '/checkCampaignOwnership' // TODO delete
 );
 
-
 let app = Express();
+// hogan-express configuration to render html
+app.set('view engine', 'html');
+app.engine('html', hogan);
+
 let keyCloak = new KeyCloakService(PERMISSIONS);
 
 configureMiddleware();
 configureRoutes();
 
-let server = app.listen(3000, function () {
-    const host = server.address().address;
+const server = app.listen(3000, function () {
     const port = server.address().port;
-    console.log('App listening at http://%s:%s', host, port);
+    console.log('App listening at port %s', port);
 });
 
 function configureMiddleware() {
@@ -48,12 +55,12 @@ function configureMiddleware() {
 function configureRoutes() {
     let router = Express.Router();
     app.use('/', router);
-    app.use('/api/campaigns', showUrl);
-    app.use('/api/customers', showUrl);
-    app.use('/api/upload', showUrl);
-    app.use('/api/optimizer', showUrl);
-    app.use('/api/reports', showUrl);
-    app.use('/api/targets', showUrl);
+    app.use('/campaigns', showUrl);
+    app.use('/customers', showUrl);
+    app.use('/upload', showUrl);
+    app.use('/optimizer', showUrl);
+    app.use('/reports', showUrl);
+    app.use('/targets', showUrl);
 
     exampleRoutes();
 
@@ -70,7 +77,7 @@ function exampleRoutes() {
 
     // check a specified permission
     app.get('/checkPermission', (req, res) => {
-        tkeyCloak.checkPermission(req, 'res:customer', 'scopes:create')
+        keyCloak.checkPermission(req, 'res:customer', 'scopes:create')
             .then(() => res.end('permission granted'))
             .catch(error => res.end('error ' + error));
     });
@@ -78,10 +85,11 @@ function exampleRoutes() {
 
 function login(req, res) {
     keyCloak.loginUser(req.query.login, req.query.password, req, res).then(grant => {
-        // TODO we don't need "grant" here, it can be used to debug
         // console.log(grant.__raw);
-        // TODO return status code
-        res.redirect('/loginSuccess.html');
+        res.render('loginSuccess', {
+            userLogin: req.query.login
+        });
+
     }).catch(error => {
         // TODO put login failed code here (we can return 401 code)
         console.error(error);
@@ -90,6 +98,6 @@ function login(req, res) {
 }
 
 function showUrl(req, res) {
-    res.end('Access ' + req.originalUrl);
+    res.end('<a href="javascript: window.history.back()">back</a> Access acquired to ' + req.originalUrl);
 }
 
