@@ -1,7 +1,5 @@
 # keycloak-nodejs-example
 
-A simply step by step Keycloak, MySQL and Node.js integration tutorial.
-
 This is a simply Node.js REST application with checking permissions. The code with permissions check: https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js
 
 This applications has REST API to work with _customers_, _campaigns_ and _reports_. We will protect all endpoints
@@ -21,12 +19,14 @@ We will configure Keycloak to use polices are based on roles.
 But for the application a combination of _(resource, scope)_ is important only.
 We can configure Keycloak using something other than roles, without changing the application.
 
-## Download Keycloak
+## Keycloak Configuration
+
+### Download Keycloak
 
 Download the last version of Keycloak (this example uses 3.2.1.Final)
 http://www.keycloak.org/downloads.html
 
-## Configure Keycloak to use MySQL
+### Configure Keycloak to use MySQL
 
 Perform this steps to get MySQL configured for Keycloak:
 http://www.keycloak.org/docs/latest/server_installation/topics/database/checklist.html
@@ -83,21 +83,21 @@ To fix time zone error during startup, `connection-url` can be
 
 Database schema creation takes a long time. 
 
-## Import Realm, Client and Polices
+### Import Realm, Client and Polices
 Realm, Client and Polices configuration can be imported using this file:
 [CAMPAIGN_REALM-realm.json](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/import_realm_json/CAMPAIGN_REALM-realm.json)
 
 You will need only create users and assign them roles (Basic configuration — item 5, 6)
 
-### Import via Keycloak UI
+#### Import via Keycloak UI
 You will need to select file to import on the `Add Realm` page.
 http://www.keycloak.org/docs/latest/getting_started/topics/first-realm/realm.html
 
-### Import at server boot time
+#### Import at server boot time
 Export and import is triggered at server boot time and its parameters are passed in via Java system properties. 
 http://www.keycloak.org/docs/latest/server_admin/topics/export-import.html
 
-## Basic configuration
+### Basic configuration
 
 1. Run server using standalone.sh (standalone.bat)
 
@@ -144,9 +144,9 @@ http://www.keycloak.org/docs/latest/server_admin/topics/clients/client-oidc.html
   It can be just a wildcard `*`.
   * Web Origins: `*`
 
-## Configure permissions
+### Configure permissions
 
-### Add polices
+#### Add polices
 
 Using `Authorization -> Policies` add role based polices
 http://www.keycloak.org/docs/latest/authorization_services/topics/policy/role-policy.html
@@ -166,13 +166,13 @@ http://www.keycloak.org/docs/latest/authorization_services/topics/policy/aggrega
 * Apply Policy: `Admin`, `Advertiser`, `Analyst`
 * Decision Strategy: `Affirmative`
  
- ### Add scopes
+ #### Add scopes
  
 Using `Authorization -> Authorization Scopes` add scopes
   * scopes:create
   * scopes:view  
 
-### Add resources
+#### Add resources
 
 Using `Authorization -> Resources` add resourcess. Scopes should be entered in the `Scopes` field for every resource.
 
@@ -182,7 +182,7 @@ Using `Authorization -> Resources` add resourcess. Scopes should be entered in t
 | res:customer  | scopes:create, scopes:view |
 | res:report    | scopes:create, scopes:view |
 
-### Add scope-based permissions
+#### Add scope-based permissions
 
 Using `Authorization -> Permissions` add scope-based permissions
 http://www.keycloak.org/docs/latest/authorization_services/topics/permission/create-scope.html
@@ -202,7 +202,7 @@ Set *decision strategy* for every permission
 10. Download `keycloak.json` using `CAMPAIGN_CLIENT -> Installation` :
 http://www.keycloak.org/docs/latest/securing_apps/topics/oidc/nodejs-adapter.html
 
-## Download and run application
+### Download and run application
 
 1. Clone this project https://github.com/v-ladynev/keycloak-nodejs-example.git
 
