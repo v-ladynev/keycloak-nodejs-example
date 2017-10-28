@@ -395,7 +395,7 @@ if we decode `access_token` (using https://jwt.io/), we will have (there are rol
 }
 ```
 ### Examples of Admin REST API 
-The file [adminClient.js](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/adminClient.js)
+The file [adminClient.js](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/lib/adminClient.js)
 
   * Realms list
   * Users list for `CAMPAIGN_REALM`
