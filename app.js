@@ -7,11 +7,11 @@ const cookieParser = require("cookie-parser");
 
 const Permissions = require("./lib/permissions");
 const KeyCloakService = require("./lib/keyCloakService");
+const adminClient = require("./lib/adminClient");
 
 /**
  * URL patterns for permissions. URL patterns documentation https://github.com/snd/url-pattern.
  */
-
 const PERMISSIONS = new Permissions([
     ['/customers', 'post', 'res:customer', 'scopes:create'],
     ['/customers(*)', 'get', 'res:customer', 'scopes:view'],
@@ -23,9 +23,10 @@ const PERMISSIONS = new Permissions([
     '/favicon.ico', // TODO delete this
     '/login(*)',
     '/accessDenied',
+    '/adminClient',
+    '/adminApi(*)',
     '/permissions', // TODO delete this, now it is protected because of we need an access token
-    '/checkPermission', // TODO delete this, now it is protected because of we need an access token
-    '/checkCampaignOwnership' // TODO delete
+    '/checkPermission' // TODO delete this, now it is protected because of we need an access token
 );
 
 let app = Express();
@@ -49,12 +50,15 @@ function configureMiddleware() {
     // for a Keycloak token
     app.use(cookieParser());
 
+    // protection middleware is configured here
     app.use(keyCloak.middleware('/logout'));
 }
 
 function configureRoutes() {
     let router = Express.Router();
     app.use('/', router);
+
+    // example urls to check protection
     app.use('/campaigns', showUrl);
     app.use('/customers', showUrl);
     app.use('/upload', showUrl);
@@ -62,13 +66,20 @@ function configureRoutes() {
     app.use('/reports', showUrl);
     app.use('/targets', showUrl);
 
-    exampleRoutes();
+    applicationRoutes();
 
     app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/static/index.html')));
 }
 
-function exampleRoutes() {
-    app.use('/login', login);
+// this routes are used by this application
+function applicationRoutes() {
+    app.get('/login', login);
+
+    app.get('/adminClient', (req, res) => renderAdminClient(res, 'we will have result here'));
+
+    app.get('/adminApi', (req, res) => {
+        adminClient[req.query.api](result => renderAdminClient(res, JSON.stringify(result, null, 4)));
+    });
 
     //get all permissions
     app.get('/permissions', (req, res) => {
@@ -89,11 +100,16 @@ function login(req, res) {
         res.render('loginSuccess', {
             userLogin: req.query.login
         });
-
     }).catch(error => {
         // TODO put login failed code here (we can return 401 code)
         console.error(error);
         res.end('Login error: ' + error);
+    });
+}
+
+function renderAdminClient(res, result) {
+    res.render('adminClient', {
+       result: result
     });
 }
 

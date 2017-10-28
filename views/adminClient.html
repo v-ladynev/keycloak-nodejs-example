@@ -1,0 +1,42 @@
+<html>
+<head>
+</head>
+<body>
+
+<h1 style="width: 100%; text-align: center;">Examples of Admin REST API</h1>
+<hr/>
+
+<div>
+    <a href="/adminApi?api=realmsList">Realms list</a>
+    <hr>
+    <a href="/adminApi?api=usersList">Users list for CAMPAIGN_REALM</a>
+    <br>
+    <a href="/adminApi?api=createTestUser">Create user test_user (password: test_user)</a>
+    <br>
+    <a href="/adminApi?api=getTestUser">Get user test_user</a>
+    <br>
+    <a href="/adminApi?api=deleteTestUser">Delete user test_user</a>
+    <br>
+    <a href="/adminApi?api=updateTestUser">Update user test_user</a>
+    <hr>
+    <a href="/adminApi?api=setTestUserCustomerId">Set test_user customerId=123</a>
+    <br>
+    <a href="/adminApi?api=removeTestUserCustomerId">Remove test_user customerId</a>
+    <hr>
+    <a href="/adminApi?api=createRole">Create Role TEST_ROLE</a>
+    <br>
+    <a href="/adminApi?api=addTestRoleToTestUser">Add TEST_ROLE to test_user</a>
+    <br>
+    <a href="/adminApi?api=removeTestRoleFromTestUser">Remove TEST_ROLE from test_user</a>
+    <hr>
+    :) <a href="/index.html">Back to login page</a>
+</div>
+<div class="content">
+    <h2>Result</h2>
+    <pre>
+        {{result}}
+    </pre>
+</div>
+
+</body>
+</html>
