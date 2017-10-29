@@ -78,7 +78,10 @@ function applicationRoutes() {
     app.get('/adminClient', (req, res) => renderAdminClient(res, 'we will have result here'));
 
     app.get('/adminApi', (req, res) => {
-        adminClient[req.query.api](result => renderAdminClient(res, JSON.stringify(result, null, 4)));
+        let render = renderAdminClient.bind(null, res);
+        adminClient[req.query.api]()
+            .then(render)
+            .catch(render);
     });
 
     //get all permissions
@@ -109,7 +112,7 @@ function login(req, res) {
 
 function renderAdminClient(res, result) {
     res.render('adminClient', {
-       result: result
+       result: JSON.stringify(result, null, 4)
     });
 }
 
