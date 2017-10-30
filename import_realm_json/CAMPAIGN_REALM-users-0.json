@@ -1,0 +1,100 @@
+{
+  "realm" : "CAMPAIGN_REALM",
+  "users" : [ {
+    "id" : "e8a68ad0-de5f-4add-b9c6-f31d9b3c0ac9",
+    "createdTimestamp" : 1508156148587,
+    "username" : "admin_user",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "credentials" : [ {
+      "type" : "password",
+      "hashedSaltedValue" : "3hsyTOAzxioMER9PM2iVUHmECN1a5KVeLm50pysuhfkILSWTVB+a5CA2XpJFpR34xtuybu6z+77yqhqR9YHhkg==",
+      "salt" : "gk5wixSBpQAAcJ/UBB35yw==",
+      "hashIterations" : 27500,
+      "counter" : 0,
+      "algorithm" : "pbkdf2-sha256",
+      "digits" : 0,
+      "period" : 0,
+      "createdDate" : 1508156159809,
+      "config" : { }
+    } ],
+    "disableableCredentialTypes" : [ "password" ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "admin", "offline_access", "uma_authorization" ],
+    "clientRoles" : {
+      "account" : [ "manage-account", "view-profile" ]
+    },
+    "groups" : [ ]
+  }, {
+    "id" : "4bb33a86-b4b6-488f-be06-613a3d260a9e",
+    "createdTimestamp" : 1508156182914,
+    "username" : "advertiser_user",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "credentials" : [ {
+      "type" : "password",
+      "hashedSaltedValue" : "3C4YXKk767u9SB8jfxDUQKTkuDWZBtQZ8uxMqXvMG0bx//FTTgrASIHPtP0jlLdrdCSheJdEfm62K78bROb/8A==",
+      "salt" : "DH/YKjL+OTb5Trl7p9CxQg==",
+      "hashIterations" : 27500,
+      "counter" : 0,
+      "algorithm" : "pbkdf2-sha256",
+      "digits" : 0,
+      "period" : 0,
+      "createdDate" : 1508156244813,
+      "config" : { }
+    } ],
+    "disableableCredentialTypes" : [ "password" ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "offline_access", "customer-advertiser", "uma_authorization" ],
+    "clientRoles" : {
+      "account" : [ "manage-account", "view-profile" ]
+    },
+    "groups" : [ ]
+  }, {
+    "id" : "0ce0cf59-c1a9-468f-9657-5bf4b28239ca",
+    "createdTimestamp" : 1508156208471,
+    "username" : "analyst_user",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "credentials" : [ {
+      "type" : "password",
+      "hashedSaltedValue" : "nILjKZ11LNif5VFGzkoMb+tGVEDBH9J/nhkTJF3T29Q0TxZ57gWkfOZ80SgfORSe4ysbFwp7jMffKd3U5lniGg==",
+      "salt" : "DErfvKkTei0C8063Rg5FBQ==",
+      "hashIterations" : 27500,
+      "counter" : 0,
+      "algorithm" : "pbkdf2-sha256",
+      "digits" : 0,
+      "period" : 0,
+      "createdDate" : 1508156225545,
+      "config" : { }
+    } ],
+    "disableableCredentialTypes" : [ "password" ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "offline_access", "customer-analyst", "uma_authorization" ],
+    "clientRoles" : {
+      "account" : [ "manage-account", "view-profile" ]
+    },
+    "groups" : [ ]
+  }, {
+    "id" : "3fa6b318-12c2-4808-b698-1730a75699d6",
+    "createdTimestamp" : 1508156582640,
+    "username" : "service-account-campaign_client",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "email" : "service-account-campaign_client@placeholder.org",
+    "serviceAccountClientId" : "CAMPAIGN_CLIENT",
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "offline_access", "uma_authorization" ],
+    "clientRoles" : {
+      "CAMPAIGN_CLIENT" : [ "uma_protection" ],
+      "account" : [ "manage-account", "view-profile" ]
+    },
+    "groups" : [ ]
+  } ]
+}
