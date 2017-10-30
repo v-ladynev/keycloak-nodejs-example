@@ -91,15 +91,19 @@ To fix time zone error during startup, `connection-url` can be
 
 Database schema creation takes a long time. 
 
-### Import Realm, Client and Polices
+### Import Users, Realm, Client and Polices
 Realm, Client and Polices configuration can be imported using this file:
 [CAMPAIGN_REALM-realm.json](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/import_realm_json/CAMPAIGN_REALM-realm.json)
 
-You will need only create users and assign them roles (Basic configuration — item 5, 6)
+Users can be imported from this file:
+[CAMPAIGN_REALM-users-0.json](https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/import_realm_json/CAMPAIGN_REALM-users-0.json)
 
 #### Import via Keycloak UI
-You will need to select file to import on the `Add Realm` page.
+
+You will need to select a file on the `Add Realm` page to import a realm .
 http://www.keycloak.org/docs/latest/getting_started/topics/first-realm/realm.html
+
+Users can be imported via `Manage -> Import`
 
 #### Import at server boot time
 Export and import is triggered at server boot time and its parameters are passed in via Java system properties. 
