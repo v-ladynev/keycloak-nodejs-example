@@ -19,6 +19,14 @@ We will configure Keycloak to use polices are based on roles.
 But for the application a combination of _(resource, scope)_ is important only.
 We can configure Keycloak using something other than roles, without changing the application.
 
+## The Most Useful Features
+
+* Custom login without using Keycloak login page.
+* Stateless Node.js server without using a session. Keycloak token is stored using cookies.
+* A centralized middleware to check permissions. Routes are not described explicity can't be accessed.
+* Configuration without `keycloak.json`. It can be used to having configuration for multiple envirements. For exampe — DEV, QA.
+* Examples of using Keycloak REST API to create users, roles and custom attributes. It can be used to work with users list from application UI.
+
 ## Keycloak Configuration
 
 ### Download Keycloak
