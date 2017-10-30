@@ -10,24 +10,26 @@
     <a href="/adminApi?api=realmsList">Realms list</a>
     <hr>
     <a href="/adminApi?api=usersList">Users list for CAMPAIGN_REALM</a>
-    <br>
-    <a href="/adminApi?api=createTestUser">Create user test_user (password: test_user)</a>
-    <br>
-    <a href="/adminApi?api=getTestUser">Get user test_user</a>
-    <br>
-    <a href="/adminApi?api=deleteTestUser">Delete user test_user</a>
-    <br>
-    <a href="/adminApi?api=updateTestUser">Update user test_user</a>
+    <br><br>
+    <a href="/adminApi?api=createTestUser">Create user login=test_user, password=test_user</a>
+    <br><br>
+    <a href="/adminApi?api=deleteTestUser">Delete user login=test_user</a>
+    <br><br>
+    <a href="/adminApi?api=getUserById">Get user login=test_user by id</a>
+    <br><br>
+    <a href="/adminApi?api=updateTestUser">Update user login=test_user</a>
     <hr>
-    <a href="/adminApi?api=setTestUserCustomerId">Set test_user customerId=123</a>
-    <br>
-    <a href="/adminApi?api=removeTestUserCustomerId">Remove test_user customerId</a>
+    <a href="/adminApi?api=setTestUserCustomerId">Set a custom attribute customerId=123 for user login=test_user</a>
+    <br><br>
+    <a href="/adminApi?api=removeTestUserCustomerId">Remove a custom attribute customerId for user login=test_user </a>
     <hr>
     <a href="/adminApi?api=createRole">Create Role TEST_ROLE</a>
-    <br>
-    <a href="/adminApi?api=addTestRoleToTestUser">Add TEST_ROLE to test_user</a>
-    <br>
-    <a href="/adminApi?api=removeTestRoleFromTestUser">Remove TEST_ROLE from test_user</a>
+    <br><br>
+    <a href="/adminApi?api=deleteRole">Delete TEST_ROLE</a>
+    <br><br>
+    <a href="/adminApi?api=addTestRoleToTestUser">Add TEST_ROLE to a user login=test_user</a>
+    <br><br>
+    <a href="/adminApi?api=removeTestRoleFromTestUser">Remove TEST_ROLE from a user login=test_user</a>
     <hr>
     :) <a href="/index.html">Back to login page</a>
 </div>
