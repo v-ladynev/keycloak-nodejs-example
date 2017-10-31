@@ -343,59 +343,57 @@ To perform custom login we need to obtain tokens from Keycloak. We can do this b
 ```shell
 curl -X POST \
   http://localhost:8080/auth/realms/CAMPAIGN_REALM/protocol/openid-connect/token \
-  -H 'authorization: Basic Q0FNUEFJR05fQ0xJRU5UOjkzMzc2ZmU4LTBmMWQtNGRiOC04OTk5LTA3ZWU5ODk2Y2YzNQ==' \
+  -H 'authorization: Basic Q0FNUEFJR05fQ0xJRU5UOjZkOTc5YmU1LWNiODEtNGQ1Yy05ZmM3LTQ1ZDFiMGM3YTc1ZQ==' \
   -H 'content-type: application/x-www-form-urlencoded' \
   -d 'client_id=CAMPAIGN_CLIENT&username=admin_user&password=admin_user&grant_type=password'
 ```
 
-`authorization: Basic Q0FNUEFJR05fQ0xJRU5UOjkzMzc2ZmU4LTBmMWQtNGRiOC04OTk5LTA3ZWU5ODk2Y2YzNQ==`
+`authorization: Basic Q0FNUEFJR05fQ0xJRU5UOjZkOTc5YmU1LWNiODEtNGQ1Yy05ZmM3LTQ1ZDFiMGM3YTc1ZQ==`
 is computed as
 ```javascript
-'Basic ' + new Buffer(clientId + ':' + secret).toString('base64');
+'Basic ' + btoa(clientId + ':' + secret);
 ```
 where (they can be obtained from `keycloak.json`) 
 ```
 client_id = CAMPAIGN_CLIENT
-secret = 93376fe8-0f1d-4db8-8999-07ee9896cf35
+secret = 6d979be5-cb81-4d5c-9fc7-45d1b0c7a75e
 ```
 This is just an example, the secret can be different.
 
-We will have, as a result, a response with `access_token`, `refresh_token` and `id_token` (The response has 3526 bytes length)
+We will have, as a result, a response with `access_token`, `refresh_token` and `id_token` (The response has 2447 bytes length)
 ```json
 {
-    "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJGQmZaenJUc3pYT1JtNlRuVkIwNVJXblY2T3BuWlliMmFYOGtKRnJfWnBNIn0.eyJqdGkiOiIxYTExZTI0Zi05MDc1LTQyMzQtODEzNi1kM2UwOTY0Njk5ZDkiLCJleHAiOjE1MDY5NDUxNjEsIm5iZiI6MCwiaWF0IjoxNTA2OTQ0ODYxLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvQ0FNUEFJR05fUkVBTE0iLCJhdWQiOiJDQU1QQUlHTl9DTElFTlQiLCJzdWIiOiJiOTQ1ZjhiYi03NGFjLTRiNWQtYTNkOC1iZDE3NmExM2U2ZjEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJDQU1QQUlHTl9DTElFTlQiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiI1ZDYyNzJhZi1mOTJiLTQwNmQtYTkwYi03OTAzMzMyOGU5ZDUiLCJhY3IiOiIxIiwiY2xpZW50X3Nlc3Npb24iOiIxNTk4MGE5ZC01NjkzLTQ3ZWQtYWM1MC1kZGUyYzM0ZmI2OWEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiQURNSU5fUk9MRSIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsInZpZXctcHJvZmlsZSJdfX0sIm5hbWUiOiIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbl91c2VyIn0.nedmYkpnkV2T_sTjqwENYqByoLGmlMEZ_6IVvczjRQJetdbamwBwEAr9Q9NkCUCqbzfnhfGsk_Q8Vplqp6j2hlDrReDDpp2KWeQCH0cLeNvfJE4ofDizq7EQAGe1qSGplc9Vd_XPUdjYr5lDBxLlEuk33JRduGeRUlamPIAEkwqwr_3eJphlbjwKp2oFzCtWGwcg0GSZ9Y1ZDcUr2AM3fFde-XZzssCPp8oIPcd6UpWOGK9AaeWTxRtM6pCnU1r0P3q_YIhplA3phTZNz9lmW01_ukgQezOXXPa58-Co5LdQbd1RHGgy6CUgHVrKPrJ-UzRzgyESdTWTc0K_Bmc9fw",
+    "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJfT3B2Wm5lSkR3T0NqczZSZmFObjdIc0lKZmRhMWxfU0ZkYUo2SU1hV0k0In0.eyJqdGkiOiI0ODM0OWQ5NS03NjNkLTQ5NTQtODNmMy01NGYzOTY0Y2I4NTQiLCJleHAiOjE1MDk0NzYyODAsIm5iZiI6MCwiaWF0IjoxNTA5NDc1OTgwLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvQ0FNUEFJR05fUkVBTE0iLCJhdWQiOiJDQU1QQUlHTl9DTElFTlQiLCJzdWIiOiI1ZGMzMDBjOS04NmM4LTQ5OTUtYjJiOS0zNjhmOTA0OWJhM2YiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJDQU1QQUlHTl9DTElFTlQiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiI3OGRhOWJhMi00YmRmLTRlNTYtODE4NC00N2QxYjgxNGEwZGEiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIioiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImFkbWluIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbl91c2VyIn0.Qa2PXHhRs_JpMPHYYwKVcpb3kfHN8l6QUGCyWkIRhl6eoI6IlWu3FG11NOtuDhKn5DvKHdnpft9nK7W5b87WSHa5lXawm6Dcp4RLfD5WvK7W7yFceFGhvC8vuM8xXOhvWDbhnX1eP_Tanrpqs19nWbTjLQ2E8iFqzxnJ1PQNNDFL2BXQ3Y58jt0uwaebJnjIhU0Mpb0plTPaRbnMBNfsjfCurXXWN6MM0rVFAHEDDrrW0M3kKeVyDuq9PYvcDvedlETOlCx3Ss9DXtZY2u__qGfABk3aNbCuUtkn9xy-HYJLBUTZIpPW0ImBKM4-tM4tEzQLvb9b6P4iWYFsaQR08w",
     "expires_in": 300,
     "refresh_expires_in": 1800,
-    "refresh_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJGQmZaenJUc3pYT1JtNlRuVkIwNVJXblY2T3BuWlliMmFYOGtKRnJfWnBNIn0.eyJqdGkiOiI5Zjk3MjlmOC0wZDJhLTQ2NGItOWQxMC0wMjQ4ZjBmYjg5MzAiLCJleHAiOjE1MDY5NDY2NjEsIm5iZiI6MCwiaWF0IjoxNTA2OTQ0ODYxLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvQ0FNUEFJR05fUkVBTE0iLCJhdWQiOiJDQU1QQUlHTl9DTElFTlQiLCJzdWIiOiJiOTQ1ZjhiYi03NGFjLTRiNWQtYTNkOC1iZDE3NmExM2U2ZjEiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoiQ0FNUEFJR05fQ0xJRU5UIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiNWQ2MjcyYWYtZjkyYi00MDZkLWE5MGItNzkwMzMzMjhlOWQ1IiwiY2xpZW50X3Nlc3Npb24iOiIxNTk4MGE5ZC01NjkzLTQ3ZWQtYWM1MC1kZGUyYzM0ZmI2OWEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiQURNSU5fUk9MRSIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsInZpZXctcHJvZmlsZSJdfX19.qft22KHgeE2V8nU5ITmoNnkwOqptK3sUatrnafo29zqBeYGg9CcC7nQ7JAT81Uy8ZEDTPrVc83-2XiLESzlCNyxIpPpQJNu2ulgjzNMQMRcgfJ2xD-GXLHMd0GYAi-b_qCsoOxsXHgJXJ-VtwbRAnZKmYxiMEroVG7VTcHSEJ2fIhsp5CtWnaZ4NS-9snT2lVVsWuvljoHoy16rNTG-Mg3cCDv3Kud1l5qIu-SXLKfrBm_rM0RUOf790UAtrxDvojqgtKefaDuMbaTpKG9T-v8jDlR4NQFVNkvzdKQDQ-97zVPvdzF6pZM_2kyqnBtU9EwXXzr8-DIygJg9hPzATng",
+    "refresh_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJfT3B2Wm5lSkR3T0NqczZSZmFObjdIc0lKZmRhMWxfU0ZkYUo2SU1hV0k0In0.eyJqdGkiOiJjMzdhNWFiYi1kZDNlLTQxMGMtOGQxMy1mMWU5NTU0ZjhmNzMiLCJleHAiOjE1MDk0Nzc3ODAsIm5iZiI6MCwiaWF0IjoxNTA5NDc1OTgwLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvQ0FNUEFJR05fUkVBTE0iLCJhdWQiOiJDQU1QQUlHTl9DTElFTlQiLCJzdWIiOiI1ZGMzMDBjOS04NmM4LTQ5OTUtYjJiOS0zNjhmOTA0OWJhM2YiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoiQ0FNUEFJR05fQ0xJRU5UIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiNzhkYTliYTItNGJkZi00ZTU2LTgxODQtNDdkMWI4MTRhMGRhIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImFkbWluIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19fQ.E46pp4oqM9o9Xa0d44YYzZ7fI61kB1KCDYksoXnUIw0Qbv67VoEWcloMKC2Lr6pmPeu6ptjkK6QJKjmoaeiFNcGHE7SoU5RTq0cyKjTFqg4GkTZuK-y0tk2ek-Beq64Zu69HzTfWGT0zSIDfd2l7EiEN8ptSCS-Tugsgmk1Snvrb2nC_1-U87qUFBR_qVryhwRk8Ie_AAwTVRWk5jATu5PPsLsCXqfM5_VVu-lc_qbOJaPeg1Ag2WXhE4lf_3BzVeRlgsxDr2EuzZG56O4Y6QeyV2J-XsZF2C7n3CcNPVXD42-MGB7Jhn5l2onl074JsJqhE6bzKB063jSf_wzyB4Q",
     "token_type": "bearer",
-    "id_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJGQmZaenJUc3pYT1JtNlRuVkIwNVJXblY2T3BuWlliMmFYOGtKRnJfWnBNIn0.eyJqdGkiOiI4NjVmNjliZC1jMTBlLTRkMjUtOTgzYS0zNDkzNjQ5NGU3NmEiLCJleHAiOjE1MDY5NDUxNjEsIm5iZiI6MCwiaWF0IjoxNTA2OTQ0ODYxLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXV0aC9yZWFsbXMvQ0FNUEFJR05fUkVBTE0iLCJhdWQiOiJDQU1QQUlHTl9DTElFTlQiLCJzdWIiOiJiOTQ1ZjhiYi03NGFjLTRiNWQtYTNkOC1iZDE3NmExM2U2ZjEiLCJ0eXAiOiJJRCIsImF6cCI6IkNBTVBBSUdOX0NMSUVOVCIsImF1dGhfdGltZSI6MCwic2Vzc2lvbl9zdGF0ZSI6IjVkNjI3MmFmLWY5MmItNDA2ZC1hOTBiLTc5MDMzMzI4ZTlkNSIsImFjciI6IjEiLCJuYW1lIjoiIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiYWRtaW5fdXNlciJ9.if4EfoYgHSKlixVJP7Xqd_Hh7u5v-kexNuB9ya8QcPx9AKVZSvmIvdspLFN4Ka5BXz7leR77YAWanBbMhE9zmD1PSSYXlT0xmUwCyse-jIQbUbIkn2xonTddkge0mRBIqEvnXFkDnhBPzRvOfmTlK35IR-6EKMsFubT227tJUasK7-annv9vDYSEhJ9sztbu2oP5p5mMOhp_W-vrAFt1CbbhJ3XvfDuTH4yrRtjSYftCOIb_FqU_erEs49zXiXGyXdd3JHrBiWyLELfmKUqE9USf1r9omhW6-NVK-Yrd01xUTf7zfYk9qE0qSm3CwedqgohAyaT1o4ru8PWHUPHB-A",
     "not-before-policy": 0,
-    "session_state": "5d6272af-f92b-406d-a90b-79033328e9d5"
+    "session_state": "78da9ba2-4bdf-4e56-8184-47d1b814a0da"
 }
 ```
 if we decode `access_token` (using https://jwt.io/), we will have (there are roles in the token)
 
 ```json
 {
-  "jti": "1a11e24f-9075-4234-8136-d3e0964699d9",
-  "exp": 1506945161,
+  "jti": "48349d95-763d-4954-83f3-54f3964cb854",
+  "exp": 1509476280,
   "nbf": 0,
-  "iat": 1506944861,
+  "iat": 1509475980,
   "iss": "http://localhost:8080/auth/realms/CAMPAIGN_REALM",
   "aud": "CAMPAIGN_CLIENT",
-  "sub": "b945f8bb-74ac-4b5d-a3d8-bd176a13e6f1",
+  "sub": "5dc300c9-86c8-4995-b2b9-368f9049ba3f",
   "typ": "Bearer",
   "azp": "CAMPAIGN_CLIENT",
   "auth_time": 0,
-  "session_state": "5d6272af-f92b-406d-a90b-79033328e9d5",
+  "session_state": "78da9ba2-4bdf-4e56-8184-47d1b814a0da",
   "acr": "1",
-  "client_session": "15980a9d-5693-47ed-ac50-dde2c34fb69a",
   "allowed-origins": [
     "*"
   ],
   "realm_access": {
     "roles": [
-      "ADMIN_ROLE",
+      "admin",
       "uma_authorization"
     ]
   },
@@ -403,11 +401,11 @@ if we decode `access_token` (using https://jwt.io/), we will have (there are rol
     "account": {
       "roles": [
         "manage-account",
+        "manage-account-links",
         "view-profile"
       ]
     }
   },
-  "name": "",
   "preferred_username": "admin_user"
 }
 ```
