@@ -241,7 +241,7 @@ http://stackoverflow.com/a/32890003/3405171
 
 ### Using official jboss/keycloak-mysql with MySQL on localhost 
 
-Creates a Keycloak `admin` user with password `admin`. 
+You shold have MySQL runing on `localhost` with `KEYCLOAK_DEV` database, and `login=root password=root` 
 
 ```shell
 sudo docker run --name keycloak_dev \
@@ -251,12 +251,10 @@ sudo docker run --name keycloak_dev \
 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin \
 jboss/keycloak-mysql 
 ```
-
-Keycloak will run on `localhost:8080`
+This creates a Keycloak `admin` user with password `admin`. 
+Keycloak will run on `localhost:8080`. You will need to add users, roles and permissions manually.
 
 ### Using ladynev/keycloak-mysql-realm-users with MySQL on localhost
-
-Creates a Keycloak `admin` user with password `admin`. 
 
 ```shell
 sudo docker run --name keycloak_dev \
@@ -266,13 +264,11 @@ sudo docker run --name keycloak_dev \
 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin \
 ladynev/keycloak-mysql-realm-users
 ```
-
-Keycloak will run on `localhost:8080`
+This creates a Keycloak `admin` user with password `admin`. 
+Keycloak will run on `localhost:8080`. It will already have predefined users, roles and permissions from this example, because
+of `ladynev/keycloak-mysql-realm-users` image imports this data from [json files](https://github.com/v-ladynev/keycloak-nodejs-example/tree/master/docker/import_realm_users) during start up.
 
 ### Using ladynev/keycloak-mysql-realm-users with MySQL docker image 
-
-Creates a Keycloak `admin` user with password `admin`.
-
 
  1.  First start a MySQL instance using the MySQL docker image:
  
@@ -293,23 +289,32 @@ Creates a Keycloak `admin` user with password `admin`.
     -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin \
     ladynev/keycloak-mysql-realm-users
     ```
- 
+
+This creates a Keycloak `admin` user with password `admin` and imports users, roles, permissions.
+
  3. Get IP address of `ladynev/keycloak-mysql-realm-users` container
     
     ```shell
     sudo docker network inspect bridge
     ```
   
- 4. Keycloak will run on `ip_address:8080`. For example: http://172.17.0.3:8080
+ 4. Keycloak will run on `ip_address:8080`. For example: http://172.17.0.3:8080 (for Windows it looks like http://192.168.99.100:8080)
  
  5. To run `keycloak-nodejs-example`, it is need to fix `keycloak.json` with server IP-address.
     Other option is generate`keycloak.json` with Keycloak UI `CAMPAIGN_CLIENT -> Installation`. 
-
 
 ### Build docker image from the root of the project
 
 ```shell
 sudo docker build -t keycloak-mysql-realm-users ./docker/import_realm_users
+```
+After that new image can be tagged
+```shell
+docker tag keycloak-mysql-realm-users ladynev/keycloak-mysql-realm-users
+```
+and pushed to the docker
+```shell
+docker push ladynev/keycloak-mysql-realm-users
 ```
 
 ## Examples of using Admin REST API and Custom Login
