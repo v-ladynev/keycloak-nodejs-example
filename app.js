@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 
-const Express = require("express");
-const path = require("path");
+const Express = require('express');
+const path = require('path');
 const hogan = require('hogan-express');
-const cookieParser = require("cookie-parser");
+const cookieParser = require('cookie-parser');
 
-const Permissions = require("./lib/permissions");
-const KeyCloakService = require("./lib/keyCloakService");
-const adminClient = require("./lib/adminClient");
+const Permissions = require('./lib/permissions');
+const KeyCloakService = require('./lib/keyCloakService');
+const AdminClient = require('./lib/adminClient');
 
 /**
  * URL patterns for permissions. URL patterns documentation https://github.com/snd/url-pattern.
@@ -20,21 +20,34 @@ const PERMISSIONS = new Permissions([
     ['/reports', 'post', 'res:report', 'scopes:create'],
     ['/reports(*)', 'get', 'res:report', 'scopes:view']
 ]).notProtect(
-    '/favicon.ico', // TODO delete this
+    '/favicon.ico', // just to not log requests
     '/login(*)',
     '/accessDenied',
     '/adminClient',
     '/adminApi(*)',
-    '/permissions', // TODO delete this, now it is protected because of we need an access token
-    '/checkPermission' // TODO delete this, now it is protected because of we need an access token
+
+    /**
+     * It is protected because of we need an access token. Better to move it to the protected area.
+     */
+    '/permissions',
+    '/checkPermission'
 );
 
 let app = Express();
+
 // hogan-express configuration to render html
 app.set('view engine', 'html');
 app.engine('html', hogan);
 
 let keyCloak = new KeyCloakService(PERMISSIONS);
+
+let adminClient = new AdminClient({
+    realm: 'CAMPAIGN_REALM',
+    serverUrl: 'http://localhost:8080',
+    resource: 'CAMPAIGN_CLIENT',
+    adminLogin: 'admin',
+    adminPassword: 'admin'
+});
 
 configureMiddleware();
 configureRoutes();
@@ -86,7 +99,9 @@ function applicationRoutes() {
 
     //get all permissions
     app.get('/permissions', (req, res) => {
-        keyCloak.getAllPermissions(req).then(json => res.json(json)).catch(error => res.end('error ' + error));
+        keyCloak.getAllPermissions(req)
+            .then(json => res.json(json))
+            .catch(error => res.end('error ' + error));
     });
 
     // check a specified permission
@@ -112,7 +127,7 @@ function login(req, res) {
 
 function renderAdminClient(res, result) {
     res.render('adminClient', {
-       result: JSON.stringify(result, null, 4)
+        result: JSON.stringify(result, null, 4)
     });
 }
 
