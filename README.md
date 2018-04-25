@@ -37,7 +37,7 @@ http://www.keycloak.org/downloads.html
 ### Configure Keycloak to use MySQL
 
 Perform this steps to get MySQL configured for Keycloak:
-http://www.keycloak.org/docs/latest/server_installation/topics/database/checklist.html
+https://www.keycloak.org/docs/latest/server_installation/index.html#_rdbms-setup-checklist
 
 **Important:** There is an error in the documentation — driver should be in the
 `modules/system/layers/base/com/mysql/driver/main` catalog. 
@@ -101,13 +101,13 @@ Users can be imported from this file:
 #### Import via Keycloak UI
 
 You will need to select a file on the `Add Realm` page to import a realm .
-http://www.keycloak.org/docs/latest/getting_started/topics/first-realm/realm.html
+https://www.keycloak.org/docs/latest/server_admin/index.html#_create-realm
 
 Users can be imported via `Manage -> Import`
 
 #### Import at server boot time
 Export and import is triggered at server boot time and its parameters are passed in via Java system properties. 
-http://www.keycloak.org/docs/latest/server_admin/topics/export-import.html
+https://www.keycloak.org/docs/latest/server_admin/index.html#_export_import
 
 ### Basic configuration
 
@@ -116,21 +116,21 @@ http://www.keycloak.org/docs/latest/server_admin/topics/export-import.html
 2. You should now have the Keycloak server up and running. 
 To check that it's working open [http://localhost:8080](http://localhost:8080). 
 You will need to create a Keycloak admin user.
-Then click on `Admin Console` http://www.keycloak.org/docs/latest/server_admin/topics/admin-console.html
+Then click on `Admin Console` https://www.keycloak.org/docs/latest/server_admin/index.html#admin-console
 
 When you define your initial admin account, you are creating an account in the master realm. 
 Your initial login to the admin console will also be through the master realm.
-http://www.keycloak.org/docs/latest/server_admin/topics/realms/master.html
+https://www.keycloak.org/docs/latest/server_admin/index.html#the-master-realm
 
-3. Create a `CAMPAIGN_REALM` realm http://www.keycloak.org/docs/latest/server_admin/topics/realms/create.html
+3. Create a `CAMPAIGN_REALM` realm https://www.keycloak.org/docs/latest/server_admin/index.html#_create-realm
 
 4. Create realm roles: `admin`, `customer-advertiser`, `customer-analyst`
-http://www.keycloak.org/docs/latest/server_admin/topics/roles/realm-roles.html<br><br>
+https://www.keycloak.org/docs/latest/server_admin/index.html#realm-roles<br><br>
 *Noitice*: Each client can has their own "client roles", scoped only to the client
-http://www.keycloak.org/docs/latest/server_admin/topics/roles/client-roles.html
+https://www.keycloak.org/docs/latest/server_admin/index.html#client-roles
 
 5. Create users (don't forget to disable `Temporary` password)
-http://www.keycloak.org/docs/latest/server_admin/topics/users/create-user.html
+https://www.keycloak.org/docs/latest/server_admin/index.html#_create-new-user
   * login: `admin_user`, password: `admin_user`
   * login: `advertiser_user`, password: `advertiser_user`
   * login: `analyst_user`, password: `analyst_user` 
@@ -139,10 +139,10 @@ http://www.keycloak.org/docs/latest/server_admin/topics/users/create-user.html
 * `admin_user` — `admin`
 * `advertiser_user` — `customer-advertiser`
 * `analyst_user` — `customer-analyst`
-http://www.keycloak.org/docs/latest/server_admin/topics/roles/user-role-mappings.html
+https://www.keycloak.org/docs/latest/server_admin/index.html#user-role-mappings
 
 7. Create a `CAMPAIGN_CLIENT`
-http://www.keycloak.org/docs/latest/server_admin/topics/clients/client-oidc.html
+https://www.keycloak.org/docs/latest/server_admin/index.html#oidc-clients
 
   * Client ID:  `CAMPAIGN_CLIENT`
   * Client Protocol: `openid-connect`
@@ -161,7 +161,7 @@ http://www.keycloak.org/docs/latest/server_admin/topics/clients/client-oidc.html
 #### Add polices
 
 Using `Authorization -> Policies` add role based polices
-http://www.keycloak.org/docs/latest/authorization_services/topics/policy/role-policy.html
+https://www.keycloak.org/docs/latest/authorization_services/index.html#_policy_rbac
 
 | Policy                         | Role                |
 |--------------------------------|---------------------|
@@ -172,7 +172,7 @@ http://www.keycloak.org/docs/latest/authorization_services/topics/policy/role-po
 
 Aggregated Policy*
 This policy consist of an aggregation of other polices
-http://www.keycloak.org/docs/latest/authorization_services/topics/policy/aggregated-policy.html  
+https://www.keycloak.org/docs/latest/authorization_services/index.html#_policy_aggregated  
   
 * Polycy name: `Admin or Advertiser or Analyst`
 * Apply Policy: `Admin`, `Advertiser`, `Analyst`
@@ -197,7 +197,7 @@ Using `Authorization -> Resources` add resourcess. Scopes should be entered in t
 #### Add scope-based permissions
 
 Using `Authorization -> Permissions` add scope-based permissions
-http://www.keycloak.org/docs/latest/authorization_services/topics/permission/create-scope.html
+https://www.keycloak.org/docs/latest/authorization_services/index.html#_permission_create_scope
 
 Set *decision strategy* for every permission 
 * Decision Strategy: `Affirmative`
@@ -212,7 +212,7 @@ Set *decision strategy* for every permission
 | report-view     | res:report   | scopes:view   | Admin or Advertiser or Analyst               |
 
 10. Download `keycloak.json` using `CAMPAIGN_CLIENT -> Installation` :
-http://www.keycloak.org/docs/latest/securing_apps/topics/oidc/nodejs-adapter.html
+https://www.keycloak.org/docs/latest/securing_apps/index.html#_nodejs_adapter
 
 ### Download and run application
 
@@ -230,7 +230,7 @@ with downloaded `keycloak.json`.
 ## Add custom attribute
 
 1. Add a user attribute `customerId` to the `advanced_user`<br>
-http://www.keycloak.org/docs/latest/server_admin/topics/users/attributes.html
+https://www.keycloak.org/docs/latest/server_admin/index.html#user-attributes
 
 2. Create a mapper and add `customerId` to `ID token`<br> 
 http://stackoverflow.com/a/32890003/3405171
@@ -434,7 +434,7 @@ http://www.keycloak.org/docs-api/2.5/rest-api/index.html#_userrepresentation
 
 ## Check permissions using REST API
 
-[Requesting Entitlements](http://www.keycloak.org/docs/latest/authorization_services/topics/service/entitlement/entitlement-api-aapi.html)
+[Requesting Entitlements](https://www.keycloak.org/docs/3.3/authorization_services/topics/service/entitlement/entitlement-api-aapi.html)
 
 https://stackoverflow.com/questions/42186537/resources-scopes-permissions-and-policies-in-keycloak
 
@@ -446,7 +446,7 @@ https://stackoverflow.com/questions/12276046/nodejs-express-how-to-secure-a-url
 
 [Keycloak Admin REST API](http://www.keycloak.org/docs-api/2.5/rest-api/index.html)<br>
 [Change Keycloak login page, get security tokens using REST](http://stackoverflow.com/questions/39356300/avoid-keycloak-default-login-page-and-use-project-login-page)<br>
-[Obtain access token for user](http://www.keycloak.org/docs/latest/server_development/topics/admin-rest-api.html)
+[Obtain access token for user](https://www.keycloak.org/docs/latest/server_development/index.html#admin-rest-api)
 
 Keycloak uses _JSON web token (JWT)_ as a barier token format. To decode such tokens: https://jwt.io/
 
