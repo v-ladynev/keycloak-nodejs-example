@@ -27,6 +27,12 @@ We can configure Keycloak using something other than roles, without changing the
 * Configuration without `keycloak.json`. It can be used to having configuration for multiple envirements. For exampe — DEV, QA.
 * Examples of using Keycloak REST API to create users, roles and custom attributes. It can be used to work with users list from application UI.
 
+# Quick Start
+
+You can run already configured Keycloak, using Docker and this instruction:
+
+https://github.com/v-ladynev/keycloak-nodejs-example#using-ladynevkeycloak-mysql-realm-users-with-mysql-docker-image 
+
 ## Keycloak Configuration
 
 ### Download Keycloak
