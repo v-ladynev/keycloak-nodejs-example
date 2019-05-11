@@ -453,6 +453,7 @@ https://stackoverflow.com/questions/12276046/nodejs-express-how-to-secure-a-url
 [Keycloak Admin REST API](http://www.keycloak.org/docs-api/2.5/rest-api/index.html)<br>
 [Change Keycloak login page, get security tokens using REST](http://stackoverflow.com/questions/39356300/avoid-keycloak-default-login-page-and-use-project-login-page)<br>
 [Obtain access token for user](https://www.keycloak.org/docs/latest/server_development/index.html#admin-rest-api)
+[Stop using JWT for sessions](http://cryto.net/~joepie91/blog/2016/06/13/stop-using-jwt-for-sessions/)
 
-Keycloak uses _JSON web token (JWT)_ as a barier token format. To decode such tokens: https://jwt.io/
+Keycloak uses _JSON web token (JWT)_ as a bearer token format. To decode such tokens: https://jwt.io/
 
