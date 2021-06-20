@@ -19,7 +19,7 @@
     "request-promise-native": "^1.0.5",
     "jsonwebtoken": "^7.3.0",
     "keycloak-admin-client": "0.12.0",
-    "keycloak-connect": "3.3.0-cr.2",
+    "keycloak-connect": "7.0.1",
     "keycloak-request-token": "^0.1.0",
     "cookie-parser": "*",
     "url-pattern": "^1.0.3"
