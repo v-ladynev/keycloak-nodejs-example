@@ -18,7 +18,7 @@
     "hogan-express": "*",
     "request-promise-native": "^1.0.5",
     "jsonwebtoken": "^7.3.0",
-    "keycloak-admin-client": "1.14.17",
+    "keycloak-admin-client": "0.12.0",
     "keycloak-connect": "14.0.0",
     "keycloak-request-token": "^0.1.0",
     "cookie-parser": "*",
