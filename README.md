@@ -121,22 +121,32 @@ https://www.keycloak.org/docs/latest/server_admin/index.html#_export_import
 
 2. You should now have the Keycloak server up and running. 
 To check that it's working open [http://localhost:8080](http://localhost:8080). 
-You will need to create a Keycloak admin user.
-Then click on `Admin Console` https://www.keycloak.org/docs/latest/server_admin/index.html#admin-console
+You will need to create a Keycloak admin user:
+click on `Administration Console` [http://localhost:8080/auth/admin/](http://localhost:8080/auth/admin/)
 
-When you define your initial admin account, you are creating an account in the master realm. 
-Your initial login to the admin console will also be through the master realm.
+// TODO
+When you boot Keycloak for the first time Keycloak creates a pre-defined realm for you. 
+This initial realm is the master realm. 
+It is the highest level in the hierarchy of realms. 
+Admin accounts in this realm have permissions to view and manage any other realm created on the server instance. 
+When you define your initial admin account, you create an account in the master realm. 
+Your initial login to the admin console will also be via the master realm.
 https://www.keycloak.org/docs/latest/server_admin/index.html#the-master-realm
 
 3. Create a `CAMPAIGN_REALM` realm https://www.keycloak.org/docs/latest/server_admin/index.html#_create-realm
 
 4. Create realm roles: `admin`, `customer-advertiser`, `customer-analyst`
 https://www.keycloak.org/docs/latest/server_admin/index.html#realm-roles<br><br>
-*Noitice*: Each client can has their own "client roles", scoped only to the client
+*Noitice*: Each client can have their own "client roles", scoped only to the client
 https://www.keycloak.org/docs/latest/server_admin/index.html#client-roles
 
-5. Create users (don't forget to disable `Temporary` password)
+5. Create users
 https://www.keycloak.org/docs/latest/server_admin/index.html#_create-new-user
+<br>
+ * Click `Add User` button, specify user's login and click `Save` button 
+ * After that, to specify a user's password go to the Credentials tab (don't forget to disable `Temporary` password)
+
+Add these users:
   * login: `admin_user`, password: `admin_user`
   * login: `advertiser_user`, password: `advertiser_user`
   * login: `analyst_user`, password: `analyst_user` 
@@ -145,9 +155,10 @@ https://www.keycloak.org/docs/latest/server_admin/index.html#_create-new-user
 * `admin_user` — `admin`
 * `advertiser_user` — `customer-advertiser`
 * `analyst_user` — `customer-analyst`
+<br>
 https://www.keycloak.org/docs/latest/server_admin/index.html#user-role-mappings
 
-7. Create a `CAMPAIGN_CLIENT`
+7. Create an OIDC client `CAMPAIGN_CLIENT`
 https://www.keycloak.org/docs/latest/server_admin/index.html#oidc-clients
 
   * Client ID:  `CAMPAIGN_CLIENT`
@@ -155,7 +166,7 @@ https://www.keycloak.org/docs/latest/server_admin/index.html#oidc-clients
   * Access Type:  `Confidential`
   * Standard Flow Enabled: `ON`
   * Implicit Flow Enabled: `OFF`
-  * Direct Access Grants Enabled: `ON` **Important**: it should be `ON` for the custom login (to provide login/password via an application login page) 
+  * Direct Access Grants Enabled: `ON` **Important**: it should be `ON` for the custom login (to provide login/password via this example application login page) 
   * Service Accounts Enabled: `ON` 
   * Authorization Enabled: `ON` **Important**: to add polices
   * Valid Redirect URIs: `http://localhost:3000/*`. Keycloak will use this value to check redirect URL at least for logout.
@@ -166,10 +177,10 @@ https://www.keycloak.org/docs/latest/server_admin/index.html#oidc-clients
 
 #### Add polices
 
-Using `Authorization -> Policies` add role based polices
+Using `Authorization -> Policies` add role based polices to the `CAMPAIGN_CLIENT` 
 https://www.keycloak.org/docs/latest/authorization_services/index.html#_policy_rbac
 
-| Policy                         | Role                |
+| Policy Name                    | Role                |
 |--------------------------------|---------------------|
 | Admin                          | admin               |
 | Advertiser                     | customer-advertiser |
@@ -200,9 +211,11 @@ Using `Authorization -> Resources` add resourcess. Scopes should be entered in t
 | res:customer  | scopes:create, scopes:view |
 | res:report    | scopes:create, scopes:view |
 
+Enter `Rsource Name` column value to the `Name` and `Display Name` fields 
+
 #### Add scope-based permissions
 
-Using `Authorization -> Permissions` add scope-based permissions
+Using `Authorization -> Permissions` add *scope-based* permissions
 https://www.keycloak.org/docs/latest/authorization_services/index.html#_permission_create_scope
 
 Set *decision strategy* for every permission 
@@ -232,6 +245,11 @@ with downloaded `keycloak.json`.
 4. `npm start` to run node.js application
 
 5. Login to the application using this URL http://localhost:3000/
+<br>
+and any of these credentials:
+* login: admin_user, password: admin_user
+* login: advertiser_user, password: advertiser_user
+* login: analyst_user, password: analyst_user
 
 ## Add custom attribute
 

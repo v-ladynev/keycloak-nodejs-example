@@ -1,10 +1,12 @@
 {
   "realm": "CAMPAIGN_REALM",
-  "auth-server-url": "http://localhost:8080/auth",
+  "auth-server-url": "http://localhost:8080/auth/",
   "ssl-required": "external",
   "resource": "CAMPAIGN_CLIENT",
+  "verify-token-audience": false,
   "credentials": {
-    "secret": "6d979be5-cb81-4d5c-9fc7-45d1b0c7a75e"
+    "secret": "ba8d8925-b924-4302-8691-e93b5e51c885"
   },
+  "confidential-port": 0,
   "policy-enforcer": {}
 }
