@@ -459,6 +459,7 @@ http://www.keycloak.org/docs-api/2.5/rest-api/index.html#_userrepresentation
 ## Check permissions using REST API
 
 [Obtaining Permissions](https://www.keycloak.org/docs/latest/authorization_services/index.html#_service_obtaining_permissions)
+<br>
 [Resources, scopes, permissions and policies in keycloak](https://stackoverflow.com/questions/42186537/resources-scopes-permissions-and-policies-in-keycloak)
 
 ## Secure URL
@@ -468,13 +469,16 @@ https://stackoverflow.com/questions/12276046/nodejs-express-how-to-secure-a-url
 ## Links
 
 [Keycloak Admin REST API](http://www.keycloak.org/docs-api/2.5/rest-api/index.html)<br>
-[Change Keycloak login page, get security tokens using REST](http://stackoverflow.com/questions/39356300/avoid-keycloak-default-login-page-and-use-project-login-page)<br>
+<br>
+[Change Keycloak login page, get security tokens using REST](http://stackoverflow.com/questions/39356300/avoid-keycloak-default-login-page-and-use-project-login-page)
+<br>
 [Obtain access token for user](https://www.keycloak.org/docs/latest/server_development/index.html#admin-rest-api)
+<br>
 [Stop using JWT for sessions](http://cryto.net/~joepie91/blog/2016/06/13/stop-using-jwt-for-sessions/)
+<br>
 [Integrating Keycloak 4 with Spring Boot 2 Microservices](https://github.com/jinnerbichler/blog/tree/master/keycloak_4_spring_boot_2)
-Docker for Keycloak
-
+<br>
 [Video Keycloak intro part 2 - Resources, Permissions, Scope and Policies](https://www.youtube.com/watch?v=3K77Pvv-ouU)
-
+<br>
 Keycloak uses _JSON web token (JWT)_ as a bearer token format. To decode such tokens: https://jwt.io/
 
