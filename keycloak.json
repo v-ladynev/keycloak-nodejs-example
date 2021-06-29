@@ -3,7 +3,7 @@
   "auth-server-url": "http://localhost:8080/auth/",
   "ssl-required": "external",
   "resource": "CAMPAIGN_CLIENT",
-  "verify-token-audience": false,
+  "verify-token-audience": true,
   "credentials": {
     "secret": "ba8d8925-b924-4302-8691-e93b5e51c885"
   },
