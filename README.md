@@ -1,6 +1,8 @@
 # keycloak-nodejs-example
 
-This is a simply Node.js REST application with checking permissions. The code with permissions check: https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js
+This is a simply Node.js REST application with checking permissions. The code with permissions check: [keycloak-nodejs-example/app.js](app.js)
+<br>
+Just go to the [Quick Start Section](#quick-start), if you don't want to read.
 
 This applications has REST API to work with _customers_, _campaigns_ and _reports_. We will protect all endpoints
 based on permissions are configured using Keycloak.
@@ -16,22 +18,49 @@ based on permissions are configured using Keycloak.
 
 The application will use a combination of _(resource, scope)_ to check a permission. 
 We will configure Keycloak to use polices are based on roles. 
-But for the application a combination of _(resource, scope)_ is important only.
+For the application a combination of _(resource, scope)_ is important only.
 We can configure Keycloak using something other than roles, without changing the application.
 
 ## The Most Useful Features
 
 * Custom login without using Keycloak login page.
 * Stateless Node.js server without using a session. Keycloak token is stored using cookies.
-* A centralized middleware to check permissions. Routes are not described explicity can't be accessed.
-* Configuration without `keycloak.json`. It can be used to having configuration for multiple envirements. For exampe — DEV, QA.
-* Examples of using Keycloak REST API to create users, roles and custom attributes. It can be used to work with users list from application UI.
+* A centralized middleware to check permissions. Routes are not described explicitly can't be accessed.
+* Configuration without `keycloak.json`. It can be used to having configuration for multiple environments. For example — DEV, QA.
+* Examples of using Keycloak REST API to create users, roles and custom attributes. It can be accessed from the application UI to work with users list.
 
 # Quick Start
 
-You can run already configured Keycloak, using Docker and this instruction:
+1. Docker has to be installed in the system
+2. Type in the console in a root of the project directory to run already configured Keycloak (with users, roles and scopes). Keycloak will need time to initialize a database schema and start (about 1 minute).   
+```bash
+docker-compose up
+```
+3. Go to the Keycloak administration console [http://localhost:8080/auth/admin/](http://localhost:8080/auth/admin/)
+4. Enter credentials (it was specified in the `docker-compose.yml`)
+```
+Username or email: admin 
+Password: admin
+```
+5. After `Sign in`, `CAMPAIGN_REALM` has to be selected. Go to the `Clients` menu.
+![realm](doc/quick_start_01.png)
+6. Choose `CAMPAIGN_CLIENT` in the `Clients` list.
+![client](doc/quick_start_02.png)
+7. Press on the `Installation` tab.
+8. Choose `Format Option: Keycloak OIDC JSON` and click `Download` to download `keycloak.json`
+![installation](doc/quick_start_03.png)
+10. Replace `keycloak-nodejs-example\keycloak.json` in the root of the project with the downloaded `keycloak.json`.
+11. Run `npm install` in the project directory to install Node.js libraries
+12. Run `npm start` to run node.js application
 
-https://github.com/v-ladynev/keycloak-nodejs-example#using-ladynevkeycloak-mysql-realm-users-with-mysql-docker-image 
+5. Login to the application using this URL [http://localhost:3000/](http://localhost:3000/)
+   <br>
+   with any of these credentials:
+* login: admin_user, password: admin_user
+* login: advertiser_user, password: advertiser_user
+* login: analyst_user, password: analyst_user
+
+# Not All information below is correct !!!
 
 ## Keycloak Configuration
 
@@ -121,22 +150,32 @@ https://www.keycloak.org/docs/latest/server_admin/index.html#_export_import
 
 2. You should now have the Keycloak server up and running. 
 To check that it's working open [http://localhost:8080](http://localhost:8080). 
-You will need to create a Keycloak admin user.
-Then click on `Admin Console` https://www.keycloak.org/docs/latest/server_admin/index.html#admin-console
+You will need to create a Keycloak admin user:
+click on `Administration Console` [http://localhost:8080/auth/admin/](http://localhost:8080/auth/admin/)
 
-When you define your initial admin account, you are creating an account in the master realm. 
-Your initial login to the admin console will also be through the master realm.
+// TODO
+When you boot Keycloak for the first time Keycloak creates a pre-defined realm for you. 
+This initial realm is the master realm. 
+It is the highest level in the hierarchy of realms. 
+Admin accounts in this realm have permissions to view and manage any other realm created on the server instance. 
+When you define your initial admin account, you create an account in the master realm. 
+Your initial login to the admin console will also be via the master realm.
 https://www.keycloak.org/docs/latest/server_admin/index.html#the-master-realm
 
 3. Create a `CAMPAIGN_REALM` realm https://www.keycloak.org/docs/latest/server_admin/index.html#_create-realm
 
 4. Create realm roles: `admin`, `customer-advertiser`, `customer-analyst`
 https://www.keycloak.org/docs/latest/server_admin/index.html#realm-roles<br><br>
-*Noitice*: Each client can has their own "client roles", scoped only to the client
+*Noitice*: Each client can have their own "client roles", scoped only to the client
 https://www.keycloak.org/docs/latest/server_admin/index.html#client-roles
 
-5. Create users (don't forget to disable `Temporary` password)
+5. Create users
 https://www.keycloak.org/docs/latest/server_admin/index.html#_create-new-user
+<br>
+ * Click `Add User` button, specify user's login and click `Save` button 
+ * After that, to specify a user's password go to the Credentials tab (don't forget to disable `Temporary` password)
+
+Add these users:
   * login: `admin_user`, password: `admin_user`
   * login: `advertiser_user`, password: `advertiser_user`
   * login: `analyst_user`, password: `analyst_user` 
@@ -145,9 +184,10 @@ https://www.keycloak.org/docs/latest/server_admin/index.html#_create-new-user
 * `admin_user` — `admin`
 * `advertiser_user` — `customer-advertiser`
 * `analyst_user` — `customer-analyst`
+<br>
 https://www.keycloak.org/docs/latest/server_admin/index.html#user-role-mappings
 
-7. Create a `CAMPAIGN_CLIENT`
+7. Create an OIDC client `CAMPAIGN_CLIENT`
 https://www.keycloak.org/docs/latest/server_admin/index.html#oidc-clients
 
   * Client ID:  `CAMPAIGN_CLIENT`
@@ -155,7 +195,7 @@ https://www.keycloak.org/docs/latest/server_admin/index.html#oidc-clients
   * Access Type:  `Confidential`
   * Standard Flow Enabled: `ON`
   * Implicit Flow Enabled: `OFF`
-  * Direct Access Grants Enabled: `ON` **Important**: it should be `ON` for the custom login (to provide login/password via an application login page) 
+  * Direct Access Grants Enabled: `ON` **Important**: it should be `ON` for the custom login (to provide login/password via this example application login page) 
   * Service Accounts Enabled: `ON` 
   * Authorization Enabled: `ON` **Important**: to add polices
   * Valid Redirect URIs: `http://localhost:3000/*`. Keycloak will use this value to check redirect URL at least for logout.
@@ -166,10 +206,10 @@ https://www.keycloak.org/docs/latest/server_admin/index.html#oidc-clients
 
 #### Add polices
 
-Using `Authorization -> Policies` add role based polices
+Using `Authorization -> Policies` add role based polices to the `CAMPAIGN_CLIENT` 
 https://www.keycloak.org/docs/latest/authorization_services/index.html#_policy_rbac
 
-| Policy                         | Role                |
+| Policy Name                    | Role                |
 |--------------------------------|---------------------|
 | Admin                          | admin               |
 | Advertiser                     | customer-advertiser |
@@ -200,9 +240,11 @@ Using `Authorization -> Resources` add resourcess. Scopes should be entered in t
 | res:customer  | scopes:create, scopes:view |
 | res:report    | scopes:create, scopes:view |
 
+Enter `Rsource Name` column value to the `Name` and `Display Name` fields 
+
 #### Add scope-based permissions
 
-Using `Authorization -> Permissions` add scope-based permissions
+Using `Authorization -> Permissions` add *scope-based* permissions
 https://www.keycloak.org/docs/latest/authorization_services/index.html#_permission_create_scope
 
 Set *decision strategy* for every permission 
@@ -232,6 +274,11 @@ with downloaded `keycloak.json`.
 4. `npm start` to run node.js application
 
 5. Login to the application using this URL http://localhost:3000/
+<br>
+and any of these credentials:
+* login: admin_user, password: admin_user
+* login: advertiser_user, password: advertiser_user
+* login: analyst_user, password: analyst_user
 
 ## Add custom attribute
 
@@ -440,9 +487,9 @@ http://www.keycloak.org/docs-api/2.5/rest-api/index.html#_userrepresentation
 
 ## Check permissions using REST API
 
-[Requesting Entitlements](https://www.keycloak.org/docs/3.3/authorization_services/topics/service/entitlement/entitlement-api-aapi.html)
-
-https://stackoverflow.com/questions/42186537/resources-scopes-permissions-and-policies-in-keycloak
+[Obtaining Permissions](https://www.keycloak.org/docs/latest/authorization_services/index.html#_service_obtaining_permissions)
+<br>
+[Resources, scopes, permissions and policies in keycloak](https://stackoverflow.com/questions/42186537/resources-scopes-permissions-and-policies-in-keycloak)
 
 ## Secure URL
 
@@ -451,9 +498,16 @@ https://stackoverflow.com/questions/12276046/nodejs-express-how-to-secure-a-url
 ## Links
 
 [Keycloak Admin REST API](http://www.keycloak.org/docs-api/2.5/rest-api/index.html)<br>
-[Change Keycloak login page, get security tokens using REST](http://stackoverflow.com/questions/39356300/avoid-keycloak-default-login-page-and-use-project-login-page)<br>
+<br>
+[Change Keycloak login page, get security tokens using REST](http://stackoverflow.com/questions/39356300/avoid-keycloak-default-login-page-and-use-project-login-page)
+<br>
 [Obtain access token for user](https://www.keycloak.org/docs/latest/server_development/index.html#admin-rest-api)
+<br>
 [Stop using JWT for sessions](http://cryto.net/~joepie91/blog/2016/06/13/stop-using-jwt-for-sessions/)
-
+<br>
+[Integrating Keycloak 4 with Spring Boot 2 Microservices](https://github.com/jinnerbichler/blog/tree/master/keycloak_4_spring_boot_2)
+<br>
+[Video Keycloak intro part 2 - Resources, Permissions, Scope and Policies](https://www.youtube.com/watch?v=3K77Pvv-ouU)
+<br>
 Keycloak uses _JSON web token (JWT)_ as a bearer token format. To decode such tokens: https://jwt.io/
 

@@ -63,8 +63,9 @@ function configureMiddleware() {
     // for a Keycloak token
     app.use(cookieParser());
 
-    // protection middleware is configured here
-    app.use(keyCloak.middleware('/logout'));
+    // protection middleware is configured for all links
+    const logoutUrl = '/logout';
+    app.use(keyCloak.middleware(logoutUrl));
 }
 
 function configureRoutes() {

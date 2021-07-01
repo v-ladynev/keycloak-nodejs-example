@@ -1,0 +1,40 @@
+version: '3.4'
+
+volumes:
+  mysql_data:
+    driver: local
+
+services:
+  mysql:
+    image: mysql:8.0.25
+    container_name: keycloak-nodejs-example-mysql
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: keycloak
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: keycloak
+  keycloak:
+    image: jboss/keycloak:14.0.0
+    container_name: keycloak-nodejs-example-keycloak
+    environment:
+      DB_VENDOR: MYSQL
+      DB_ADDR: mysql
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: keycloak
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    command:
+      - "-Dkeycloak.profile.feature.upload_scripts=enabled"
+      - "-Dkeycloak.migration.action=import"
+      - "-Dkeycloak.migration.provider=dir"
+      - "-Dkeycloak.migration.dir=/opt/jboss/keycloak/import"
+      - "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING"
+    ports:
+      - 8080:8080
+    volumes:
+      - "./docker/import_realm_users:/opt/jboss/keycloak/import"
+    depends_on:
+      - mysql
