@@ -1,6 +1,8 @@
 # keycloak-nodejs-example
 
 This is a simply Node.js REST application with checking permissions. The code with permissions check: https://github.com/v-ladynev/keycloak-nodejs-example/blob/master/app.js
+<br>
+Just go to the [Quick Start Section](#quick-start), if you don't want to read.
 
 This applications has REST API to work with _customers_, _campaigns_ and _reports_. We will protect all endpoints
 based on permissions are configured using Keycloak.
@@ -16,22 +18,53 @@ based on permissions are configured using Keycloak.
 
 The application will use a combination of _(resource, scope)_ to check a permission. 
 We will configure Keycloak to use polices are based on roles. 
-But for the application a combination of _(resource, scope)_ is important only.
+For the application a combination of _(resource, scope)_ is important only.
 We can configure Keycloak using something other than roles, without changing the application.
 
 ## The Most Useful Features
 
 * Custom login without using Keycloak login page.
 * Stateless Node.js server without using a session. Keycloak token is stored using cookies.
-* A centralized middleware to check permissions. Routes are not described explicity can't be accessed.
-* Configuration without `keycloak.json`. It can be used to having configuration for multiple envirements. For exampe — DEV, QA.
-* Examples of using Keycloak REST API to create users, roles and custom attributes. It can be used to work with users list from application UI.
+* A centralized middleware to check permissions. Routes are not described explicitly can't be accessed.
+* Configuration without `keycloak.json`. It can be used to having configuration for multiple environments. For example — DEV, QA.
+* Examples of using Keycloak REST API to create users, roles and custom attributes. It can be accessed from the application UI to work with users list.
 
 # Quick Start
 
-You can run already configured Keycloak, using Docker and this instruction:
+1. Docker has to be installed in the system
+2. Type in the console in a root of the project directory to run already configured Keycloak (with users, roles and scopes):   
+```bash
+docker-compose up
+```
+Keycloak will need time to initialize a database schema and start (about 1 minute).
+<br>
+3. Go to the Keycloak administration console [http://localhost:8080/auth/admin/](http://localhost:8080/auth/admin/)
+4. Enter credentials (it was specified in the `docker-compose.yml`)
+```
+Username or email: admin 
+Password: admin
+```
+<br>
+5. After `Sign in`, `CAMPAIGN_REALM` has to be selected. Go to the `Clients` menu.
+![realm][doc/quick_start_01.png]
+6. Choose `CAMPAIGN_CLIENT` in the `Clients` list.
+![client][doc/quick_start_02.png]
+7. Press on the `Installation` tab.
+8. Choose `Format Option: Keycloak OIDC JSON` and click `Download` to download `keycloak.json`
+![installation][doc/quick_start_03.png]
+10. Replace `keycloak-nodejs-example\keycloak.json` in the root of the project with the downloaded `keycloak.json`.
+<br>
+11. Run `npm install` in the project directory to install Node.js libraries
+12. Run `npm start` to run node.js application
 
-https://github.com/v-ladynev/keycloak-nodejs-example#using-ladynevkeycloak-mysql-realm-users-with-mysql-docker-image 
+5. Login to the application using this URL [http://localhost:3000/](http://localhost:3000/)
+   <br>
+   with any of these credentials:
+* login: admin_user, password: admin_user
+* login: advertiser_user, password: advertiser_user
+* login: analyst_user, password: analyst_user
+
+# Not All information below is correct !!!
 
 ## Keycloak Configuration
 
