@@ -43,12 +43,12 @@ Username or email: admin
 Password: admin
 ```
 5. After `Sign in`, `CAMPAIGN_REALM` has to be selected. Go to the `Clients` menu.
-![realm](doc/quick_start_01.png | width=800)
+![realm](doc/quick_start_01.png)
 6. Choose `CAMPAIGN_CLIENT` in the `Clients` list.
-![client](doc/quick_start_02.png | width=800)
+![client](doc/quick_start_02.png)
 7. Press on the `Installation` tab.
 8. Choose `Format Option: Keycloak OIDC JSON` and click `Download` to download `keycloak.json`
-![installation](doc/quick_start_03.png | width=800)
+![installation](doc/quick_start_03.png)
 10. Replace `keycloak-nodejs-example\keycloak.json` in the root of the project with the downloaded `keycloak.json`.
 11. Run `npm install` in the project directory to install Node.js libraries
 12. Run `npm start` to run node.js application
