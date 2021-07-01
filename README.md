@@ -32,11 +32,10 @@ We can configure Keycloak using something other than roles, without changing the
 # Quick Start
 
 1. Docker has to be installed in the system
-2. Type in the console in a root of the project directory to run already configured Keycloak (with users, roles and scopes):   
+2. Type in the console in a root of the project directory to run already configured Keycloak (with users, roles and scopes). Keycloak will need time to initialize a database schema and start (about 1 minute).   
 ```bash
 docker-compose up
 ```
-Keycloak will need time to initialize a database schema and start (about 1 minute).
 3. Go to the Keycloak administration console [http://localhost:8080/auth/admin/](http://localhost:8080/auth/admin/)
 4. Enter credentials (it was specified in the `docker-compose.yml`)
 ```
@@ -44,12 +43,12 @@ Username or email: admin
 Password: admin
 ```
 5. After `Sign in`, `CAMPAIGN_REALM` has to be selected. Go to the `Clients` menu.
-![realm](doc/quick_start_01.png)
+![realm](doc/quick_start_01.png | width=800)
 6. Choose `CAMPAIGN_CLIENT` in the `Clients` list.
-![client](doc/quick_start_02.png)
+![client](doc/quick_start_02.png | width=800)
 7. Press on the `Installation` tab.
 8. Choose `Format Option: Keycloak OIDC JSON` and click `Download` to download `keycloak.json`
-![installation](doc/quick_start_03.png)
+![installation](doc/quick_start_03.png | width=800)
 10. Replace `keycloak-nodejs-example\keycloak.json` in the root of the project with the downloaded `keycloak.json`.
 11. Run `npm install` in the project directory to install Node.js libraries
 12. Run `npm start` to run node.js application
